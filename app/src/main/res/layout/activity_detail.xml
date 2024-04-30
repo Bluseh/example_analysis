@@ -1,0 +1,53 @@
+<!-- activity_detail.xml -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.DetailActivity">
+
+    <!-- 收件人 -->
+    <TextView
+        android:id="@+id/textViewRecipient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="收件人:"
+        android:layout_marginTop="16dp"/>
+
+    <!-- 寄件人 -->
+    <TextView
+        android:id="@+id/textViewSender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="寄件人:"
+        android:layout_below="@id/textViewRecipient"
+        android:layout_marginTop="16dp"/>
+
+    <!-- 快递内容 -->
+    <TextView
+        android:id="@+id/textViewContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="快递内容:"
+        android:layout_below="@id/textViewSender"
+        android:layout_marginTop="16dp"/>
+
+    <!-- 收件地址 -->
+    <TextView
+        android:id="@+id/textViewAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="收件地址:"
+        android:layout_below="@id/textViewContent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- 收件人电话 -->
+    <TextView
+        android:id="@+id/textViewPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="收件人电话:"
+        android:layout_below="@id/textViewAddress"
+        android:layout_marginTop="16dp"/>
+
+</RelativeLayout>
