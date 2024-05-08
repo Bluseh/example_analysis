@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.Code128Writer;
 
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,18 +70,21 @@ public class OrderActivity extends AppCompatActivity {
     private EditText idEditText;
     private EditText createTimeEditText;
     private Spinner typeSpinner;
-    private EditText senderEditText;
+    private TextView senderTextView;
+    private TextView senderTextViewProfile;
     private LinearLayout sender;
-    private EditText senderAddressEditText;
+    private TextView senderAddressTextView;
     private LinearLayout receiver;
-    private EditText receiverEditText;
-    private EditText receiverAddressEditText;
+    private TextView receiverTextViewProfile;
+    private TextView receiverTextView;
+    private TextView receiverAddressTextView;
 
 
     private Button submitBtn;
-    private Button addressesBtn;
+//    private Button addressesBtn;
     private ImageView barcodeImageView;
     private Button backButton;
+    private Button refreshButton;
 
 
     private String senderName;
@@ -98,12 +103,12 @@ public class OrderActivity extends AppCompatActivity {
     private Map<String, String> customer_address;
     private Map<String, Integer> customer = new HashMap<>();
     private Map<String, Integer> type = new HashMap<>();
-    private Map<String, String> Address_RegionCode = new HashMap<>();
-    private Map<String, String> District_RegionCode = new HashMap<>();
-    private Map<String, RegionData> Province_ProvinceRegionData = new HashMap<>();
-    private Map<String, RegionData> City_CityRegionData = new HashMap<>();
+//    private Map<String, String> Address_RegionCode = new HashMap<>();
+//    private Map<String, String> District_RegionCode = new HashMap<>();
+//    private Map<String, RegionData> Province_ProvinceRegionData = new HashMap<>();
+//    private Map<String, RegionData> City_CityRegionData = new HashMap<>();
 
-    private String baseUrl = "http://10.10.11.27:8080/REST/";
+    private String baseUrl = "http://123.56.29.212:8081/REST/";
     OkHttpClient client = new OkHttpClient();
 
 //    private List<RegionData> provinceList;
@@ -156,7 +161,7 @@ public class OrderActivity extends AppCompatActivity {
 
 
         // Bind views
-        addressesBtn = findViewById(R.id.addresses_button);
+        refreshButton = findViewById(R.id.refreshButton);
         weightEditText = findViewById(R.id.weightEditText);
         feeEditText = findViewById(R.id.feeEditText);
         idEditText = findViewById(R.id.idEditText);
@@ -164,14 +169,20 @@ public class OrderActivity extends AppCompatActivity {
         createTimeEditText = findViewById(R.id.createTimeEditText);
         createTimeEditText.setEnabled(false);
         typeSpinner = findViewById(R.id.typeSpinner);
+        typeSpinner.setAdapter(arrayAdapter);
 
         sender = findViewById(R.id.sender);
         receiver = findViewById(R.id.receiver);
-        senderEditText = findViewById(R.id.senderEditText);
-        senderEditText.setEnabled(false);
-        senderAddressEditText = findViewById(R.id.senderEditText_address);
-        receiverEditText = findViewById(R.id.receiverEditText);
-        receiverAddressEditText = findViewById(R.id.receiverEditText_address);
+        senderTextView = findViewById(R.id.senderTextView);
+        senderTextViewProfile=findViewById(R.id.senderTextViewProfile);
+//        senderTextView.setEnabled(false);
+        senderAddressTextView = findViewById(R.id.senderTextView_address);
+//        senderAddressTextView.setEnabled(false);
+        receiverTextView = findViewById(R.id.receiverTextView);
+        receiverTextViewProfile=findViewById(R.id.receiverTextViewProfile);
+//        receiverTextView.setEnabled(false);
+        receiverAddressTextView = findViewById(R.id.receiverTextView_address);
+//        receiverAddressTextView.setEnabled(false);
         submitBtn = findViewById(R.id.submitBtn);
         backButton = findViewById(R.id.back_button);
         barcodeImageView = findViewById(R.id.barcodeImageView);
@@ -190,17 +201,17 @@ public class OrderActivity extends AppCompatActivity {
         receiverAddress = sharedPreferences.getString("receiverAddress", "");
         receiverRegionCode = sharedPreferences.getString("receiverRegionCode", "");
 
-        senderEditText.setText(senderName + " " + senderTel);
-        senderAddressEditText.setText(senderAddress);
-        receiverEditText.setText(receiverName + " " + receiverTel);
-        receiverAddressEditText.setText(receiverAddress);
+        senderTextViewProfile.setText(senderName + " " + senderTel);
+        senderAddressTextView.setText(senderAddress);
+        receiverTextViewProfile.setText(receiverName + " " + receiverTel);
+        receiverAddressTextView.setText(receiverAddress);
         // Set up adapters
         // Set up listeners
         //TODO:线程异步
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                selectSenderAndReceiver();
+                selectSenderAndReceiverAndRefresh();
             }
         });
 
@@ -228,7 +239,7 @@ public class OrderActivity extends AppCompatActivity {
                     customers = gson.fromJson(responseData, customerListType);
                     for (Customer customer : customers) {
                         if (customer.getId() == Integer.valueOf(customerId)) {
-                            senderEditText.setText(customer.getName());
+                            senderTextViewProfile.setText(customer.getName());
                         }
                     }
                     customer = new HashMap<>();
@@ -271,11 +282,11 @@ public class OrderActivity extends AppCompatActivity {
                     Toast.makeText(OrderActivity.this, "费用不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (senderEditText.getText() == null || senderAddressEditText.getText() == null) {
+                if (senderTextViewProfile.getText() == null || senderAddressTextView.getText() == null) {
                     Toast.makeText(OrderActivity.this, "寄件人地址为空,请设置寄件地址", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (receiverEditText.getText() == null || receiverAddressEditText.getText() == null) {
+                if (receiverTextViewProfile.getText() == null || receiverAddressTextView.getText() == null) {
                     Toast.makeText(OrderActivity.this, "收件人地址不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -283,12 +294,11 @@ public class OrderActivity extends AppCompatActivity {
                 Express express = new Express();
                 Float weight = Float.parseFloat(weightEditText.getText().toString());
                 Float fee = Float.parseFloat(feeEditText.getText().toString());
-                //Integer type_id = type.get((String) typeSpinner.getSelectedItem());
-                Integer type_id = 1;
+                Integer type_id = type.get((String) typeSpinner.getSelectedItem());
                 Integer sender_id = customer.get((String) senderTel);
-                String senderAddress = senderAddressEditText.getText().toString();
+                String senderAddress = senderAddressTextView.getText().toString();
                 Integer receiver_id = customer.get((String) receiverTel);
-                String receiverAddress = receiverAddressEditText.getText().toString();
+                String receiverAddress = receiverAddressTextView.getText().toString();
 
 
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -354,16 +364,17 @@ public class OrderActivity extends AppCompatActivity {
                 finish(); // 关闭当前活动
             }
         });
-        addressesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(OrderActivity.this, AddressAddActivity.class);
-                startActivity(intent);
-            }
-        });
+//        addressesBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(OrderActivity.this, AddressAddActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
-    private void selectSenderAndReceiver() {
+
+    private void selectSenderAndReceiverAndRefresh() {
 
         sender.setOnClickListener(new View.OnClickListener() {
 
@@ -379,6 +390,14 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(OrderActivity.this, SplashActivity.class);
                 intent.putExtra("mode", 2);
+                startActivity(intent);
+            }
+        });
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=getIntent();
+                finish();
                 startActivity(intent);
             }
         });
