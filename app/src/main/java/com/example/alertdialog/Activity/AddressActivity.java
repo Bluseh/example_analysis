@@ -73,7 +73,7 @@ public class AddressActivity extends AppCompatActivity {
 
         try {
             OkHttpClient client = new OkHttpClient();
-            String expressUrl = "http://10.10.11.27:8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
+            String expressUrl = "http://10.166.1.155:8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
             final Request request = new Request.Builder().url(expressUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();
@@ -141,7 +141,7 @@ public class AddressActivity extends AppCompatActivity {
                                     String encodedString = URLEncoder.encode(oldAddress, "UTF-8");
                                     try {
                                         OkHttpClient client = new OkHttpClient();
-                                        String expressUrl = "http://10.10.11.27:8080/REST/Misc/AddressList/deleteAddressByCustomerId?param=" + encodedString + "&id=" + customerId;
+                                        String expressUrl = "http://10.166.1.155:8080/REST/Misc/AddressList/deleteAddressByCustomerId?param=" + encodedString + "&id=" + customerId;
                                         System.out.println(expressUrl);
                                         String decodedString = URLDecoder.decode(encodedString, "UTF-8");
                                         System.out.println(decodedString);

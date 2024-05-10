@@ -41,7 +41,7 @@ public class RegisterTask extends AsyncTask<Void, Void, String> {
             requestData.put("regionCode", regionCode);
 
             // 发起 POST 请求
-            URL url = new URL("http://10.10.11.27:8080/REST/App/register");
+            URL url = new URL("http://10.166.1.155:8080/REST/App/register");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
