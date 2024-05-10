@@ -10,6 +10,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alertdialog.R;
+import com.example.alertdialog.pojo.Address;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = etPassword.getText().toString().trim();
                 LoginTask loginTask = new LoginTask(telCode, password);
                 loginTask.execute();
+
                 Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
                 startActivity(intent);
             }

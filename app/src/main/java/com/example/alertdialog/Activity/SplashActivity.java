@@ -6,17 +6,31 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.widget.Toast;
 
 import com.example.alertdialog.R;
+import com.example.alertdialog.pojo.Address;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class SplashActivity extends Activity {
 
-    private static int SPLASH_DISPLAY_LENGHT = 1500;
+    private static int SPLASH_DISPLAY_LENGHT = 3000;
+    public static List<Address> splashedAddressesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +40,9 @@ public class SplashActivity extends Activity {
         Context context = this.getApplicationContext();
         Intent intent = getIntent();
         Integer mode = intent.getIntExtra("mode", 0);
+
+        // 启动网络请求
+        new NetworkTask().execute();
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -48,4 +65,35 @@ public class SplashActivity extends Activity {
             }
         }, SPLASH_DISPLAY_LENGHT);
     }
+
+    private class NetworkTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // 在后台执行网络请求
+            try {
+                OkHttpClient client = new OkHttpClient();
+                String expressUrl = "http://10.131.31.23:8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
+                final Request request = new Request.Builder().url(expressUrl).build();
+                Call call = client.newCall(request);
+                Response response = call.execute();
+                String content = response.body().string();
+                // System.out.println(content);
+                Gson gson = new Gson();
+                Type addressListType = new TypeToken<List<Address>>() {
+                }.getType();
+                splashedAddressesList = gson.fromJson(content, addressListType);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // 网络请求完成后的处理逻辑
+            System.out.println(splashedAddressesList);
+        }
+    }
+
 }

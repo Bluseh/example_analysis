@@ -38,6 +38,9 @@
             android:name=".Activity.SignedActivity"
             android:exported="true" />
         <!-- 新增结束-->
+        <activity
+            android:name=".Activity.MarkedActivity"
+            android:exported="true" />
 
         <activity android:name=".Activity.DetailActivity">
             <!-- 这里没有添加意图过滤器，因为 DetailActivity 不是应用程序的入口点 -->

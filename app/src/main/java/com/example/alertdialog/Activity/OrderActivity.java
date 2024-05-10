@@ -124,7 +124,7 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
 
         initializeViews();
-        //loadCustomerData();
+        loadCustomerData();
 //        loadAddressData();
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -237,11 +237,6 @@ public class OrderActivity extends AppCompatActivity {
                     Type customerListType = new TypeToken<List<Customer>>() {
                     }.getType();
                     customers = gson.fromJson(responseData, customerListType);
-                    for (Customer customer : customers) {
-                        if (customer.getId() == Integer.valueOf(customerId)) {
-                            senderTextViewProfile.setText(customer.getName());
-                        }
-                    }
                     customer = new HashMap<>();
                     customer_address = new HashMap<>();
                     for (int i = 0; i < customers.size(); i++) {
@@ -290,7 +285,7 @@ public class OrderActivity extends AppCompatActivity {
                     Toast.makeText(OrderActivity.this, "收件人地址不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                System.out.println("通过校验");
                 Express express = new Express();
                 Float weight = Float.parseFloat(weightEditText.getText().toString());
                 Float fee = Float.parseFloat(feeEditText.getText().toString());

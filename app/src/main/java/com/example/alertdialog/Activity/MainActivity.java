@@ -25,12 +25,20 @@ public class MainActivity extends AppCompatActivity {
 
 
         // 找到 "包裹下单" 的LinearLayout
+        LinearLayout actionAddressList = findViewById(R.id.action_addressList);
         LinearLayout actionOrderLayout = findViewById(R.id.action_order);
         LinearLayout actionSenderList = findViewById(R.id.action_senderList);
         LinearLayout actionReceiverList = findViewById(R.id.action_receiverList);
-
-        //新增111111111111111111111111111111111
         LinearLayout actionSignedList = findViewById(R.id.action_signedList);
+        LinearLayout actionMarkedList = findViewById(R.id.action_markedList);
+
+        actionAddressList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddressActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // 给 "包裹下单" 添加点击事件
         actionOrderLayout.setOnClickListener(new View.OnClickListener() {
@@ -60,11 +68,17 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        //新增1111111111111111111111111111111111111111111111
         actionSignedList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SignedActivity.class);
+                startActivity(intent);
+            }
+        });
+        actionMarkedList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MarkedActivity.class);
                 startActivity(intent);
             }
         });

@@ -49,7 +49,7 @@ public class SignedActivity extends AppCompatActivity {
 
         try {
             OkHttpClient client = new OkHttpClient();
-            String customerUrl = "http://10.166.1.155:8080/REST/Misc/Customer/getCustomerNameList";
+            String customerUrl = "http://10.131.31.23:8080/REST/Misc/Customer/getCustomerNameList";
             final Request request = new Request.Builder().url(customerUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();
@@ -69,7 +69,7 @@ public class SignedActivity extends AppCompatActivity {
 
         try {
             OkHttpClient client = new OkHttpClient();
-            String expressUrl = "http://10.166.1.155:8080/REST/Domain/Express/getSignedExpressesByReceiver/" + customerId;
+            String expressUrl = "http://10.131.31.23:8080/REST/Domain/Express/getSignedExpressesByReceiver/" + customerId;
             final Request request = new Request.Builder().url(expressUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();

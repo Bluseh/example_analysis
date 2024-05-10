@@ -70,7 +70,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         } else if (mode == 2) {
 
-            //新增开始11111111111111111111111
             String name = intent.getStringExtra("sender");
             int type = intent.getIntExtra("type", -1);
             String addr = intent.getStringExtra("addr");
@@ -93,8 +92,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
         } else if (mode == 3) {
-            evaluate.setEnabled(true);
-            evaluate.setVisibility(View.VISIBLE);
+
             String name = intent.getStringExtra("sender");
             int type = intent.getIntExtra("type", -1);
             String addr = intent.getStringExtra("addr");
@@ -105,7 +103,16 @@ public class DetailActivity extends AppCompatActivity {
                 tv4.setText("寄件人地址：" + addr);
                 tv5.setText("寄件人电话：" + tel);
             }
-//新增结束111111111111111111111111111111111111111111111
+            evaluate.setEnabled(true);
+            evaluate.setVisibility(View.VISIBLE);
+            //TODO: 评价待实现
+            evaluate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
         } else {
             //错误处理
         }

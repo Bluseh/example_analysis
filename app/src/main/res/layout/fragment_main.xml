@@ -11,6 +11,45 @@
         android:paddingRight="15dip">
 
         <LinearLayout
+            android:id="@+id/action_addressList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="15dip"
+            android:paddingLeft="5dip"
+            android:paddingTop="15dip" >
+            <ImageView
+                android:id="@+id/action_addressList_icon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_order" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="地址管理（第一次打开先进这里）"
+                android:textColor="@color/black"
+                android:textSize="20dip" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip">
+
+        <LinearLayout
             android:id="@+id/action_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,7 +185,45 @@
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="签收列表"
+                android:text="已签收列表"
+                android:textColor="@color/black"
+                android:textSize="20dip" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip">
+
+        <LinearLayout
+            android:id="@+id/action_markedList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="15dip"
+            android:paddingLeft="5dip"
+            android:paddingTop="15dip" >
+            <ImageView
+                android:id="@+id/action_markedList_icon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_order" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="已评价列表(未完成，别点)"
                 android:textColor="@color/black"
                 android:textSize="20dip" />
         </LinearLayout>

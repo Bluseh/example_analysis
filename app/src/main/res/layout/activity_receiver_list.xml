@@ -24,7 +24,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
+        android:enabled="false"/>
 
     <!-- 列表 -->
     <ListView

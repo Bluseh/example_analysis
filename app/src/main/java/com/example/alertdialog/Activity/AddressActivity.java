@@ -17,22 +17,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.alertdialog.pojo.Address;
 import com.example.alertdialog.adapters.AddressAdapter;
-import com.example.alertdialog.util.AddressConverterUtils;
-import com.example.alertdialog.util.GetJsonDataUtils;
-import com.example.alertdialog.beans.ProviceBean;
 import com.example.alertdialog.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -59,6 +49,8 @@ public class AddressActivity extends AppCompatActivity {
     private AddressAdapter adapter;
     private String customerId = LoginActivity.customerId;
 
+    private List<Address> splashedAddressList = SplashActivity.splashedAddressesList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,22 +63,9 @@ public class AddressActivity extends AppCompatActivity {
         addButton = findViewById(R.id.addButton);
         refreshButton = findViewById(R.id.refreshButton);
 
-        try {
-            OkHttpClient client = new OkHttpClient();
-            String expressUrl = "http://10.166.1.155:8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
-            final Request request = new Request.Builder().url(expressUrl).build();
-            Call call = client.newCall(request);
-            Response response = call.execute();
-            String content = response.body().string();
-            // System.out.println(content);
-            Gson gson = new Gson();
-            Type addressListType = new TypeToken<List<Address>>() {
-            }.getType();
-            addressesList = gson.fromJson(content, addressListType);
-            System.out.println(addressesList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        addressesList = splashedAddressList;
+        System.out.println("已加载的地址簿:");
+        System.out.println(addressesList);
 
         for (Address address : addressesList) {
             // System.out.println(address.getAddress());
@@ -141,7 +120,7 @@ public class AddressActivity extends AppCompatActivity {
                                     String encodedString = URLEncoder.encode(oldAddress, "UTF-8");
                                     try {
                                         OkHttpClient client = new OkHttpClient();
-                                        String expressUrl = "http://10.166.1.155:8080/REST/Misc/AddressList/deleteAddressByCustomerId?param=" + encodedString + "&id=" + customerId;
+                                        String expressUrl = "http://10.131.31.23:8080/REST/Misc/AddressList/deleteAddressByCustomerId?param=" + encodedString + "&id=" + customerId;
                                         System.out.println(expressUrl);
                                         String decodedString = URLDecoder.decode(encodedString, "UTF-8");
                                         System.out.println(decodedString);
