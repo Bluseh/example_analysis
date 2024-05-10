@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout actionSenderList = findViewById(R.id.action_senderList);
         LinearLayout actionReceiverList = findViewById(R.id.action_receiverList);
 
+        //新增111111111111111111111111111111111
+        LinearLayout actionSignedList = findViewById(R.id.action_signedList);
+
         // 给 "包裹下单" 添加点击事件
         actionOrderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, ReceiveActivity.class);
                 startActivity(intent);
 
+            }
+        });
+        //新增1111111111111111111111111111111111111111111111
+        actionSignedList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SignedActivity.class);
+                startActivity(intent);
             }
         });
     }

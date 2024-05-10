@@ -119,5 +119,43 @@
             android:background="@android:color/darker_gray" />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip">
+
+        <LinearLayout
+            android:id="@+id/action_signedList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="15dip"
+            android:paddingLeft="5dip"
+            android:paddingTop="15dip" >
+            <ImageView
+                android:id="@+id/action_signedList_icon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_order" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="签收列表"
+                android:textColor="@color/black"
+                android:textSize="20dip" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="@android:color/darker_gray" />
+
+    </LinearLayout>
 
 </LinearLayout>

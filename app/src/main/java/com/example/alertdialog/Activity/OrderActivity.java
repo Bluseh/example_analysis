@@ -124,7 +124,7 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
 
         initializeViews();
-        loadCustomerData();
+        //loadCustomerData();
 //        loadAddressData();
 
         submitBtn.setOnClickListener(new View.OnClickListener() {

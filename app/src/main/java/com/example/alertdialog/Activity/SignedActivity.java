@@ -1,6 +1,5 @@
 package com.example.alertdialog.Activity;
 
-// MainActivity2.java
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,10 +31,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-// MainActivity2.java
 
 
-public class ReceiveActivity extends AppCompatActivity {
+public class SignedActivity extends AppCompatActivity {
 
     List<Customer> customerList = null;
     private String customerId = LoginActivity.customerId;
@@ -43,7 +41,7 @@ public class ReceiveActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receiver_list);
+        setContentView(R.layout.activity_signed_list);
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -67,24 +65,25 @@ public class ReceiveActivity extends AppCompatActivity {
             System.out.println(customer.toString());
         }
 
-        List<Express> haveExpressList = null;
+        List<Express> signedExpressList = null;
 
         try {
             OkHttpClient client = new OkHttpClient();
-            String expressUrl = "http://10.166.1.155:8080/REST/Domain/Express/getExpressesByReceiver/" + customerId;
+            String expressUrl = "http://10.166.1.155:8080/REST/Domain/Express/getSignedExpressesByReceiver/" + customerId;
             final Request request = new Request.Builder().url(expressUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();
             String content = response.body().string();
+            System.out.println(content);
             Gson builderTime = (new GsonBuilder()).setDateFormat("yyyy-MM-dd HH:mm:ss").create();
             Type expressListType = new TypeToken<List<Express>>() {
             }.getType();
-            haveExpressList = builderTime.fromJson(content, expressListType);
+            signedExpressList = builderTime.fromJson(content, expressListType);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        ArrayList<Express> packageList = new ArrayList<>(haveExpressList);
+        ArrayList<Express> packageList = new ArrayList<>(signedExpressList);
 
         CustomAdapter adapter = new CustomAdapter(this, R.layout.list_item_layout, packageList, customerList, 2);
         ListView listView = findViewById(R.id.listView);
@@ -94,7 +93,7 @@ public class ReceiveActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ReceiveActivity.this, "请使用返回键返回！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignedActivity.this, "请使用返回键返回！", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,8 +103,6 @@ public class ReceiveActivity extends AppCompatActivity {
                 Express selectedPackage = packageList.get(position);
                 int send = selectedPackage.getSender();
                 int type = selectedPackage.getType();
-                //新增11111111111111111111
-                String expressId = selectedPackage.getId();
                 String name = null;
                 String addr = null;
                 String tel = null;
@@ -120,28 +117,17 @@ public class ReceiveActivity extends AppCompatActivity {
                 tel = desiredCustomer.getTelCode();
                 name = desiredCustomer.getName();
 
-                Intent intent = new Intent(ReceiveActivity.this, DetailActivity.class);
-                intent.putExtra("mode", 2);
+                Intent intent = new Intent(SignedActivity.this, DetailActivity.class);
+                intent.putExtra("mode", 3);
                 intent.putExtra("sender", name);
                 intent.putExtra("type", type);
                 intent.putExtra("addr", addr);
                 intent.putExtra("tel", tel);
-                //新增11111111111111111111111111111111
-                intent.putExtra("expressId",expressId);
                 startActivity(intent);
             }
         });
-
-        Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ReceiveActivity.this, AddressActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
     }
 }
+
 

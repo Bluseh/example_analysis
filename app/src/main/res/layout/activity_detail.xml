@@ -50,4 +50,26 @@
         android:layout_below="@id/textViewAddress"
         android:layout_marginTop="16dp"/>
 
+    <Button
+        android:id="@+id/evaluate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="评价"
+        android:layout_below="@id/textViewPhoneNumber"
+        />
+    <Button
+        android:id="@+id/sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="签收"
+        android:layout_below="@id/evaluate"
+        />
+    <ImageView
+        android:id="@+id/barcodeImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/sign"/>
+
+
 </RelativeLayout>
