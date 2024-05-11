@@ -3,8 +3,12 @@ package com.example.alertdialog.Activity;
 import static com.example.alertdialog.Activity.LoginActivity.customerId;
 import static com.example.alertdialog.Activity.MainActivity.ip;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.example.alertdialog.pojo.Customer;
+import com.example.alertdialog.util.PreferencesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,15 +24,24 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
     private static final String TAG = "LoginTask";
 
 
+
     private String telCode;
 
     private String password;
     private String state;
+    private Activity context;
+    private PreferencesUtil preferencesUtil;
 
 
     public LoginTask(String telCode, String password) {
         this.telCode = telCode;
         this.password = password;
+    }
+    public LoginTask(Activity context, String telCode, String password) {
+        this.context = context;
+        this.telCode = telCode;
+        this.password = password;
+        this.preferencesUtil = new PreferencesUtil(context); // 初始化PreferencesUtil对象
     }
 
     @Override
@@ -87,6 +100,12 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     customerId = jsonResponse.optString("id"); // 更新 customerId 的值
+                    System.out.println("\nyyq\n\nyyqn"+jsonResponse.optString("id"));
+                    Customer customer= new Customer();
+                    customer.setTelCode(jsonResponse.optString("telCode"));
+                    customer.setPassword(jsonResponse.optString("password"));
+                    preferencesUtil.putString("telCode",customer.getTelCode());
+                    preferencesUtil.putString("password",customer.getPassword());
                     Log.d(TAG, "登录成功，customerId = " + customerId);
                 } catch (JSONException e) {
                     Log.e(TAG, "解析 JSON 出错：" + e.getMessage());
@@ -101,5 +120,6 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
             Log.e(TAG, "Response is null");
         }
     }
+
 }
 

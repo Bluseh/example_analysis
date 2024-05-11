@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private String customerId = LoginActivity.customerId;
     private Customer customer;
     PreferencesUtil preferencesUtil;
-    public static final String ip = "10.166.144.198";
+    public static final String ip = "10.10.11.226";
 
 
     @Override
@@ -83,24 +83,11 @@ public class MainActivity extends AppCompatActivity {
         actionMarkedList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(MainActivity.this, MarkedActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, MarkedActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    public void setLoginCustomer(Customer customer) {
-        this.customer = customer;
-        //持久化登录用户数据
-        preferencesUtil.putInt("id",customer.getId());
-        preferencesUtil.putString("name", customer.getName());
-        preferencesUtil.putString("address", customer.getAddress());
-        preferencesUtil.putString("telCode", customer.getTelCode());
-        preferencesUtil.putString("regioncode", customer.getRegionCode());
-        //preferencesUtil.putString("password", customer.getPassword());
-        //preferencesUtil.putString("name", customer.getName());
-        //preferencesUtil.putInt("uid", customer.getId());
-        //preferencesUtil.putInt("rid", customer.getRid());
-        //preferencesUtil.putString("nid", customery.getNid());
-    }
+
 }

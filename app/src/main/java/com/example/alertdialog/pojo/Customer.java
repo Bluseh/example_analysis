@@ -14,6 +14,7 @@ public class Customer implements Serializable {
 	@Expose private String address;
 	@Expose private String telCode;
 	@Expose private String regionCode;
+	@Expose private String password;
 
 	public Integer getId() {
 		return id;
@@ -55,6 +56,13 @@ public class Customer implements Serializable {
 		this.regionCode = regionCode;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	@Override
 	public String toString() {
@@ -64,6 +72,7 @@ public class Customer implements Serializable {
 				", address='" + address + '\'' +
 				", telCode='" + telCode + '\'' +
 				", regionCode='" + regionCode + '\'' +
+				", password='" + password + '\'' +
 				'}';
 	}
 }

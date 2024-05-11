@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.alertdialog.R;
 import com.example.alertdialog.pojo.Address;
+import com.example.alertdialog.pojo.Customer;
+import com.example.alertdialog.util.PreferencesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,10 +34,13 @@ public class SplashActivity extends Activity {
 
     private static int SPLASH_DISPLAY_LENGHT = 3000;
     public static List<Address> splashedAddressesList;
+    PreferencesUtil preferencesUtil;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferencesUtil = PreferencesUtil.getInstance(getApplicationContext());
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
         Context context = this.getApplicationContext();
@@ -48,7 +53,8 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 Intent intent = null;
-
+                String tel = preferencesUtil.getString("telCode");
+                String pw = preferencesUtil.getString("password");
                 if (customerId.isEmpty() && mode == 0) {
                     Toast.makeText(context, "用户名或密码错误！", Toast.LENGTH_SHORT).show();
                     intent = new Intent(SplashActivity.this, LoginActivity.class);

@@ -1,5 +1,8 @@
 package com.example.alertdialog.Activity;
 
+import static com.xuexiang.xui.XUI.getContext;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alertdialog.R;
 import com.example.alertdialog.pojo.Address;
+import com.example.alertdialog.pojo.Customer;
+import com.example.alertdialog.util.PreferencesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.xuexiang.xui.widget.toast.XToast;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -28,11 +34,14 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPhone, etPassword;
     private Button btnLogin, btnRegister;
     public static String customerId = "";
+    PreferencesUtil preferencesUtil;
+    private Customer customer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+        preferencesUtil = PreferencesUtil.getInstance(getApplicationContext());
 
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
@@ -45,11 +54,17 @@ public class LoginActivity extends AppCompatActivity {
                 // 获取输入的电话和密码
                 String telCode = etPhone.getText().toString().trim();
                 String password = etPassword.getText().toString().trim();
-                LoginTask loginTask = new LoginTask(telCode, password);
-                loginTask.execute();
+                if (telCode.equals("")){
+                    XToast.error(getContext(),"请输入手机号！").show();
+                } else if (password.equals("")) {
+                    XToast.error(getContext(),"请输入密码！").show();
+                }else {
+                    LoginTask loginTask = new LoginTask(LoginActivity.this,telCode, password);
+                    loginTask.execute();
+                    Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+                    startActivity(intent);
+                }
 
-                Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -60,6 +75,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        preLogin();
     }
+    private void preLogin(){
+        customer=new Customer();
+        String tel = preferencesUtil.getString("telCode");
+        String pw = preferencesUtil.getString("password");
+        System.out.println("tel\n\npw\n"+tel+pw);
+
+    }
+
+
 }
 
