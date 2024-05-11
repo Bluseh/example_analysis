@@ -32,7 +32,7 @@ import okhttp3.Response;
 
 public class SplashActivity extends Activity {
 
-    private static int SPLASH_DISPLAY_LENGHT = 3000;
+    private static int SPLASH_DISPLAY_LENGHT = 2500;
     public static List<Address> splashedAddressesList;
     PreferencesUtil preferencesUtil;
 
@@ -44,8 +44,6 @@ public class SplashActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
         Context context = this.getApplicationContext();
-        Intent intent = getIntent();
-        Integer mode = intent.getIntExtra("mode", 0);
 
         // 启动网络请求
         new NetworkTask().execute();
@@ -55,17 +53,9 @@ public class SplashActivity extends Activity {
                 Intent intent = null;
                 String tel = preferencesUtil.getString("telCode");
                 String pw = preferencesUtil.getString("password");
-                if (customerId.isEmpty() && mode == 0) {
+                if (customerId.isEmpty()) {
                     Toast.makeText(context, "用户名或密码错误！", Toast.LENGTH_SHORT).show();
                     intent = new Intent(SplashActivity.this, LoginActivity.class);
-                } else if (mode == 1) {
-                    intent = new Intent(SplashActivity.this, AddressActivity.class);
-                    intent.putExtra("mode", 1);
-                } else if (mode == 2) {
-                    intent = new Intent(SplashActivity.this, AddressActivity.class);
-                    intent.putExtra("mode", 2);
-                } else if (!tel.equals("")&&!pw.equals("")) {
-                    intent = new Intent(SplashActivity.this, MainActivity.class);
                 } else {
                     intent = new Intent(SplashActivity.this, MainActivity.class);
                 }
@@ -83,11 +73,12 @@ public class SplashActivity extends Activity {
             try {
                 OkHttpClient client = new OkHttpClient();
                 String expressUrl = "http://"+ip+":8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
+                System.out.println(expressUrl);
                 final Request request = new Request.Builder().url(expressUrl).build();
                 Call call = client.newCall(request);
                 Response response = call.execute();
                 String content = response.body().string();
-                // System.out.println(content);
+                System.out.println(content);
                 Gson gson = new Gson();
                 Type addressListType = new TypeToken<List<Address>>() {
                 }.getType();

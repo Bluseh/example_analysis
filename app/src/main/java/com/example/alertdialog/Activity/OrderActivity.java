@@ -377,7 +377,7 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OrderActivity.this, SplashActivity.class);
+                Intent intent = new Intent(OrderActivity.this, AddressActivity.class);
                 intent.putExtra("mode", 1);
                 startActivity(intent);
             }
@@ -385,7 +385,7 @@ public class OrderActivity extends AppCompatActivity {
         receiver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OrderActivity.this, SplashActivity.class);
+                Intent intent = new Intent(OrderActivity.this, AddressActivity.class);
                 intent.putExtra("mode", 2);
                 startActivity(intent);
             }

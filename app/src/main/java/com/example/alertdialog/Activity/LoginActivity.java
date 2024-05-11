@@ -5,6 +5,7 @@ import static com.xuexiang.xui.XUI.getContext;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,8 +62,13 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     LoginTask loginTask = new LoginTask(LoginActivity.this,telCode, password);
                     loginTask.execute();
-                    Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(LoginActivity.this, "发送请求", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+                            startActivity(intent);
+                        }
+                    }, 1500);
                 }
 
             }
