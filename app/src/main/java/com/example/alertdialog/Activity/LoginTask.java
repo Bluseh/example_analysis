@@ -6,6 +6,7 @@ import static com.example.alertdialog.Activity.MainActivity.ip;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.alertdialog.pojo.Customer;
 import com.example.alertdialog.util.PreferencesUtil;
@@ -100,6 +101,7 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     customerId = jsonResponse.optString("id"); // 更新 customerId 的值
+                    Toast.makeText(context, "customerId已更新", Toast.LENGTH_SHORT).show();
                     System.out.println("\nyyq\n\nyyqn"+jsonResponse.optString("id"));
                     Customer customer= new Customer();
                     customer.setTelCode(jsonResponse.optString("telCode"));
