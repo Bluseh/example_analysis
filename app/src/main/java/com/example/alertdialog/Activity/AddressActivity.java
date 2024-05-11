@@ -1,5 +1,7 @@
 package com.example.alertdialog.Activity;
 
+import static com.example.alertdialog.Activity.MainActivity.ip;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -120,7 +122,7 @@ public class AddressActivity extends AppCompatActivity {
                                     String encodedString = URLEncoder.encode(oldAddress, "UTF-8");
                                     try {
                                         OkHttpClient client = new OkHttpClient();
-                                        String expressUrl = "http://10.131.31.23:8080/REST/Misc/AddressList/deleteAddressByCustomerId?param=" + encodedString + "&id=" + customerId;
+                                        String expressUrl = "http://"+ip+":8080/REST/Misc/AddressList/deleteAddressByCustomerId?param=" + encodedString + "&id=" + customerId;
                                         System.out.println(expressUrl);
                                         String decodedString = URLDecoder.decode(encodedString, "UTF-8");
                                         System.out.println(decodedString);

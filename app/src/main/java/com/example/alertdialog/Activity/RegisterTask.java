@@ -1,5 +1,7 @@
 package com.example.alertdialog.Activity;
 
+import static com.example.alertdialog.Activity.MainActivity.ip;
+
 import android.os.AsyncTask;
 import android.util.Log;
 import org.json.JSONException;
@@ -41,7 +43,7 @@ public class RegisterTask extends AsyncTask<Void, Void, String> {
             requestData.put("regionCode", regionCode);
 
             // 发起 POST 请求
-            URL url = new URL("http://10.131.31.23:8080/REST/App/register");
+            URL url = new URL("http://"+ip+":8080/REST/App/register");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");

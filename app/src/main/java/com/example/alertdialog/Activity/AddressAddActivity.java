@@ -1,5 +1,7 @@
 package com.example.alertdialog.Activity;
 
+import static com.example.alertdialog.Activity.MainActivity.ip;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -113,7 +115,7 @@ public class AddressAddActivity extends AppCompatActivity {
                     String encodedString = URLEncoder.encode(finalString, "UTF-8");
                     try {
                         OkHttpClient client = new OkHttpClient();
-                        String expressUrl = "http://10.131.31.23:8080/REST/Misc/AddressList/saveAddressByCustomerId?param=" + encodedString + "&id=" + customerId + "&regioncode=" + regioncode + "&name=" + newName + "&tel=" + newTel;
+                        String expressUrl = "http://"+ip+":8080/REST/Misc/AddressList/saveAddressByCustomerId?param=" + encodedString + "&id=" + customerId + "&regioncode=" + regioncode + "&name=" + newName + "&tel=" + newTel;
                         System.out.println(expressUrl);
                         String decodedString = URLDecoder.decode(encodedString, "UTF-8");
                         System.out.println(decodedString);

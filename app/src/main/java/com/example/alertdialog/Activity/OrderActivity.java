@@ -1,5 +1,7 @@
 package com.example.alertdialog.Activity;
 
+import static com.example.alertdialog.Activity.MainActivity.ip;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -108,7 +110,7 @@ public class OrderActivity extends AppCompatActivity {
 //    private Map<String, RegionData> Province_ProvinceRegionData = new HashMap<>();
 //    private Map<String, RegionData> City_CityRegionData = new HashMap<>();
 
-    private String baseUrl = "http://123.56.29.212:8081/REST/";
+    private String baseUrl = "http://"+ip+":8081/REST/";
     OkHttpClient client = new OkHttpClient();
 
 //    private List<RegionData> provinceList;

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Current_DetailActivity">
+    <RelativeLayout
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:id="@+id/back_menu"
+                android:layout_width="25dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:layout_height="25dp"
+                android:src="@drawable/back"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <TextView
+                android:id="@+id/webview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="物流信息"
+                android:layout_weight="7"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:background="#ffffff"
+        android:paddingEnd="15dp">
+
+        <!--商品主图-->
+        <ImageView
+            android:id="@+id/main_pic_iv"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/pic_main"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp" />
+
+        <!--物流状态-->
+        <TextView
+            android:id="@+id/tv_express_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/main_pic_iv"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/main_pic_iv"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:text="快件状态:未知状态" />
+        <!--快递公司-->
+        <TextView
+            android:id="@+id/tv_express_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/tv_express_status"
+            android:layout_below="@id/tv_express_status"
+            android:layout_marginTop="10dp"
+            android:textColor="#666666"
+            android:textSize="15sp"
+            android:text="快递公司:卓越快递" />
+        <!--快递单号-->
+        <TextView
+            android:id="@+id/tv_express_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/tv_express_company"
+            android:layout_below="@id/tv_express_company"
+            android:layout_marginTop="10dp"
+            android:textColor="#666666"
+            android:textSize="15sp"
+            android:text="快递单号:未知" />
+    </RelativeLayout>
+
+    <!--物流追踪的列表-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/traceRv"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

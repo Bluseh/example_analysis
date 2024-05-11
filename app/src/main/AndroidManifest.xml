@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAG" />
-
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -14,62 +13,62 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.CustomerApp"
+        android:usesCleartextTraffic="true"
         tools:replace="android:theme"
         tools:targetApi="31">
         <activity
             android:name=".Activity.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".Activity.SendActivity"
             android:exported="true" />
         <activity
             android:name=".Activity.ReceiveActivity"
-            android:exported="true" />
-
-        <!-- 新增开始-->
+            android:exported="true" /> <!-- 新增开始 -->
         <activity
             android:name=".Activity.SignedActivity"
-            android:exported="true" />
-        <!-- 新增结束-->
+            android:exported="true" /> <!-- 新增结束 -->
         <activity
             android:name=".Activity.MarkedActivity"
             android:exported="true" />
 
-        <activity android:name=".Activity.DetailActivity">
-            <!-- 这里没有添加意图过滤器，因为 DetailActivity 不是应用程序的入口点 -->
-        </activity>
         <activity
             android:name=".Activity.OrderActivity"
             android:exported="true" />
         <activity
             android:name=".Activity.AddressActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Activity.SplashActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Activity.AddressAddActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Activity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activity.RegisterActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Activity.TestActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".Activity.DetailActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".Activity.Current_DetailActivity"
             android:exported="true">
         </activity>
     </application>

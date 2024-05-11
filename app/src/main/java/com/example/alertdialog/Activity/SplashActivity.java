@@ -1,6 +1,7 @@
 package com.example.alertdialog.Activity;
 
 import static com.example.alertdialog.Activity.LoginActivity.customerId;
+import static com.example.alertdialog.Activity.MainActivity.ip;
 
 import android.app.Activity;
 import android.content.Context;
@@ -73,7 +74,7 @@ public class SplashActivity extends Activity {
             // 在后台执行网络请求
             try {
                 OkHttpClient client = new OkHttpClient();
-                String expressUrl = "http://10.131.31.23:8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
+                String expressUrl = "http://"+ip+":8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
                 final Request request = new Request.Builder().url(expressUrl).build();
                 Call call = client.newCall(request);
                 Response response = call.execute();

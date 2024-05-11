@@ -2,6 +2,8 @@ package com.example.alertdialog.Activity;
 
 // MainActivity2.java
 
+import static com.example.alertdialog.Activity.MainActivity.ip;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -51,7 +53,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
         try {
             OkHttpClient client = new OkHttpClient();
-            String customerUrl = "http://10.131.31.23:8080/REST/Misc/Customer/getCustomerNameList";
+            String customerUrl = "http://"+ip+":8080/REST/Misc/Customer/getCustomerNameList";
             final Request request = new Request.Builder().url(customerUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();
@@ -71,7 +73,7 @@ public class ReceiveActivity extends AppCompatActivity {
 
         try {
             OkHttpClient client = new OkHttpClient();
-            String expressUrl = "http://10.131.31.23:8080/REST/Domain/Express/getExpressesByReceiver/" + customerId;
+            String expressUrl = "http://"+ip+":8080/REST/Domain/Express/getExpressesByReceiver/" + customerId;
             final Request request = new Request.Builder().url(expressUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();

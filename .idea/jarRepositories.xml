@@ -17,6 +17,14 @@
       <option name="url" value="file:/$USER_HOME$/.m2/repository/" />
     </remote-repository>
     <remote-repository>
+<<<<<<< Updated upstream
+=======
+      <option name="id" value="Alibaba2" />
+      <option name="name" value="Alibaba2" />
+      <option name="url" value="https://maven.aliyun.com/repository/public" />
+    </remote-repository>
+    <remote-repository>
+>>>>>>> Stashed changes
       <option name="id" value="MavenRepo" />
       <option name="name" value="MavenRepo" />
       <option name="url" value="https://repo.maven.apache.org/maven2/" />
@@ -31,10 +39,13 @@
       <option name="name" value="Bstek" />
       <option name="url" value="https://nexus.bsdn.org/content/groups/public/" />
     </remote-repository>
+<<<<<<< Updated upstream
     <remote-repository>
       <option name="id" value="Alibaba" />
       <option name="name" value="Alibaba" />
       <option name="url" value="https://maven.aliyun.com/repository/public" />
     </remote-repository>
+=======
+>>>>>>> Stashed changes
   </component>
 </project>

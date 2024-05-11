@@ -12,10 +12,15 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alertdialog.R;
+import com.example.alertdialog.pojo.Customer;
+import com.example.alertdialog.util.PreferencesUtil;
 
 public class MainActivity extends AppCompatActivity {
 
     private String customerId = LoginActivity.customerId;
+    private Customer customer;
+    PreferencesUtil preferencesUtil;
+    public static final String ip = "10.166.144.198";
 
 
     @Override
@@ -82,5 +87,20 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(intent);
             }
         });
+    }
+
+    public void setLoginCustomer(Customer customer) {
+        this.customer = customer;
+        //持久化登录用户数据
+        preferencesUtil.putInt("id",customer.getId());
+        preferencesUtil.putString("name", customer.getName());
+        preferencesUtil.putString("address", customer.getAddress());
+        preferencesUtil.putString("telCode", customer.getTelCode());
+        preferencesUtil.putString("regioncode", customer.getRegionCode());
+        //preferencesUtil.putString("password", customer.getPassword());
+        //preferencesUtil.putString("name", customer.getName());
+        //preferencesUtil.putInt("uid", customer.getId());
+        //preferencesUtil.putInt("rid", customer.getRid());
+        //preferencesUtil.putString("nid", customery.getNid());
     }
 }

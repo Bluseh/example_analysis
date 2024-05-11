@@ -5,6 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.DetailActivity">
+    <RelativeLayout
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:id="@+id/back_menu"
+                android:layout_width="25dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="left"
+                android:layout_height="25dp"
+                android:src="@drawable/back"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <TextView
+                android:id="@+id/webview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="快递列表"
+                android:layout_weight="7"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true">
+            <ImageView
+                android:id="@+id/main_detail"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/detail"/>
+        </RelativeLayout>
+    </RelativeLayout>
 
     <!-- 收件人 -->
     <TextView
@@ -12,6 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="收件人:"
+        android:layout_below="@+id/Title"
         android:layout_marginTop="16dp"/>
 
     <!-- 寄件人 -->

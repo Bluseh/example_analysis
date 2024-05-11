@@ -1,6 +1,7 @@
 package com.example.alertdialog.Activity;
 
 import static com.example.alertdialog.Activity.LoginActivity.customerId;
+import static com.example.alertdialog.Activity.MainActivity.ip;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -39,7 +40,7 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
             requestData.put("password", password);
 
             // 发起 POST 请求
-            URL url = new URL("http://10.131.31.23:8080/REST/App/login");
+            URL url = new URL("http://"+ip+":8080/REST/App/login");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");

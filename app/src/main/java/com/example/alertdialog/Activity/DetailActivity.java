@@ -37,16 +37,26 @@ import okhttp3.Response;
 public class DetailActivity extends AppCompatActivity {
     private ImageView barcodeImageView;
 
+    private ImageView backImageView;
+    private TextView titleTextView;
+    private ImageView detailImageView;
+    String ExpressId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_NoTitle);
         setContentView(R.layout.activity_detail);
+        backImageView = findViewById(R.id.back_menu);
+        titleTextView = findViewById(R.id.webview_title);
+        detailImageView = findViewById(R.id.main_detail);
 
         TextView tv1 = findViewById(R.id.textViewRecipient);
         TextView tv2 = findViewById(R.id.textViewSender);
         TextView tv3 = findViewById(R.id.textViewContent);
         TextView tv4 = findViewById(R.id.textViewAddress);
         TextView tv5 = findViewById(R.id.textViewPhoneNumber);
+        setListener();
         Button evaluate = findViewById(R.id.evaluate);
         Button sign = findViewById(R.id.sign);
         barcodeImageView = findViewById(R.id.barcodeImageView);
@@ -57,7 +67,15 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int mode = intent.getIntExtra("mode", -1);
+
+        try {
+            ExpressId=(String) intent.getStringExtra("expressId");
+            //System.out.println("\nyyq\ndetail_expressid"+ExpressId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         if (mode == 1) {
+            titleTextView.setText("寄件信息");
             String name = intent.getStringExtra("receiver");
             int type = intent.getIntExtra("type", -1);
             String addr = intent.getStringExtra("addr");
@@ -69,7 +87,7 @@ public class DetailActivity extends AppCompatActivity {
                 tv5.setText("收件人电话：" + tel);
             }
         } else if (mode == 2) {
-
+            titleTextView.setText("收件信息");
             String name = intent.getStringExtra("sender");
             int type = intent.getIntExtra("type", -1);
             String addr = intent.getStringExtra("addr");
@@ -116,6 +134,8 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             //错误处理
         }
+
+
     }
     private void generateBarcode(String data) {
         // Generate barcode image based on data
@@ -148,5 +168,16 @@ public class DetailActivity extends AppCompatActivity {
         }
 
 //        barcodeImageView.setImageBitmap(defaultBitmap); // 生成成功时显示默认图片
+    }
+    private void setListener(){
+        detailImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailActivity.this,Current_DetailActivity.class);
+                intent.putExtra("expressId",ExpressId);
+                startActivity(intent);
+
+            }
+        });
     }
 }
