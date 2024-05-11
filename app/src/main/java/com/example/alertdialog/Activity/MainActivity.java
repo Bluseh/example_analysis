@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String ip = "10.10.11.226";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

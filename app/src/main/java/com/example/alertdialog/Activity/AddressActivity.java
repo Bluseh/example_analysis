@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.alertdialog.pojo.Address;
 import com.example.alertdialog.adapters.AddressAdapter;
 import com.example.alertdialog.R;
@@ -52,6 +54,8 @@ public class AddressActivity extends AppCompatActivity {
     private String customerId = LoginActivity.customerId;
 
     private List<Address> splashedAddressList = SplashActivity.splashedAddressesList;
+
+    private String encodedString;
 
 
     @Override
@@ -98,7 +102,7 @@ public class AddressActivity extends AppCompatActivity {
                     editor.putString("receiverAddress", addresses.get(position));
                     editor.putString("receiverRegionCode", regionCodes.get(position));
                 } else {
-                    Toast.makeText(AddressActivity.this,"异常",Toast.LENGTH_SHORT);
+                    Toast.makeText(AddressActivity.this, "异常", Toast.LENGTH_SHORT);
                 }
                 editor.apply();
                 finish();
@@ -113,31 +117,21 @@ public class AddressActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String oldAddress = addresses.get(position);
-                                try {
-                                    addresses.remove(position);
-                                    names.remove(position);
-                                    telCodes.remove(position);
-                                    regionCodes.remove(position);
-                                    adapter.notifyItemRemoved(position);
-                                    String encodedString = URLEncoder.encode(oldAddress, "UTF-8");
-                                    try {
-                                        OkHttpClient client = new OkHttpClient();
-                                        String expressUrl = "http://"+ip+":8080/REST/Misc/AddressList/deleteAddressByCustomerId?param=" + encodedString + "&id=" + customerId;
-                                        System.out.println(expressUrl);
-                                        String decodedString = URLDecoder.decode(encodedString, "UTF-8");
-                                        System.out.println(decodedString);
-                                        final Request request = new Request.Builder().url(expressUrl).build();
-                                        Call call = client.newCall(request);
-                                        Response response = call.execute();
-                                        String content = response.header("state");
-                                        System.out.println(content);
+                                addresses.remove(position);
+                                names.remove(position);
+                                telCodes.remove(position);
+                                regionCodes.remove(position);
+                                splashedAddressList.remove(position);
+                                adapter.notifyItemRemoved(position);
 
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                try {
+                                    encodedString = URLEncoder.encode(oldAddress, "UTF-8");
                                 } catch (UnsupportedEncodingException e) {
                                     throw new RuntimeException(e);
                                 }
+
+                                Toast.makeText(AddressActivity.this, "发送请求", Toast.LENGTH_SHORT).show();
+                                new AddressActivity.NetworkTask().execute();
 
                             }
                         })
@@ -165,5 +159,36 @@ public class AddressActivity extends AppCompatActivity {
             }
         });
     }
+
+    private class NetworkTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // 在后台执行网络请求
+            try {
+                OkHttpClient client = new OkHttpClient();
+                String expressUrl = "http://" + ip + ":8080/REST/Misc/AddressList/deleteAddressByCustomerId?param=" + encodedString + "&id=" + customerId;
+                System.out.println(expressUrl);
+                String decodedString = URLDecoder.decode(encodedString, "UTF-8");
+                System.out.println(decodedString);
+                final Request request = new Request.Builder().url(expressUrl).build();
+                Call call = client.newCall(request);
+                Response response = call.execute();
+                String content = response.header("state");
+                System.out.println(content);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // 网络请求完成后的处理逻辑
+            Toast.makeText(AddressActivity.this, "删除成功！", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 

@@ -30,7 +30,7 @@
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="地址管理（第一次打开先进这里）"
+                android:text="地址管理"
                 android:textColor="@color/black"
                 android:textSize="20dip" />
         </LinearLayout>
