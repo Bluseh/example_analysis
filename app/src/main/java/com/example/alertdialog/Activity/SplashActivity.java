@@ -67,7 +67,7 @@ public class SplashActivity extends Activity {
         }, SPLASH_DISPLAY_LENGHT);
     }
 
-    private class NetworkTask extends AsyncTask<Void, Void, Void> {
+    public static class NetworkTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private String customerId = LoginActivity.customerId;
     private Customer customer;
     PreferencesUtil preferencesUtil;
-    public static final String ip = "10.166.144.198";
+    public static final String ip = "10.10.11.188";
 
 
     @Override

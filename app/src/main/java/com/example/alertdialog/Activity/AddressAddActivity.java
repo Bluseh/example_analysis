@@ -1,11 +1,16 @@
 package com.example.alertdialog.Activity;
 
+import static com.example.alertdialog.Activity.LoginActivity.customerId;
 import static com.example.alertdialog.Activity.MainActivity.ip;
+import static com.example.alertdialog.Activity.SplashActivity.splashedAddressesList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +25,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.alertdialog.R;
 import com.example.alertdialog.adapters.AddressAdapter;
 import com.example.alertdialog.beans.ProviceBean;
+import com.example.alertdialog.pojo.Address;
 import com.example.alertdialog.util.AddressConverterUtils;
 import com.example.alertdialog.util.GetJsonDataUtils;
 import com.google.gson.Gson;
@@ -27,6 +33,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -57,6 +64,15 @@ public class AddressAddActivity extends AppCompatActivity {
     private List<List<String>> options2Items = new ArrayList<>();
     private List<List<List<String>>> options3Items = new ArrayList<>();
     private String customerId = LoginActivity.customerId;
+
+    private static int SPLASH_DISPLAY_LENGHT = 3000;
+
+    private String newTel;
+    private String newName;
+    private String newAddress;
+    private String finalString;
+    private String regioncode;
+    private String encodedString;
 
     @Override
     protected void onDestroy() {
@@ -95,9 +111,9 @@ public class AddressAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String newAddress = inputAddressEt.getText().toString();
-                String newName = inputNameEt.getText().toString();
-                String newTel = inputTelEt.getText().toString();
+                newAddress = inputAddressEt.getText().toString();
+                newName = inputNameEt.getText().toString();
+                newTel = inputTelEt.getText().toString();
                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
                 String savedString1 = sharedPreferences.getString(KEY_STRING1, "");
                 String savedString2 = sharedPreferences.getString(KEY_STRING2, "");
@@ -106,32 +122,21 @@ public class AddressAddActivity extends AppCompatActivity {
                     return;
                 }
 
-                String regioncode = AddressConverterUtils.convertToAreaCode(savedString2);
+                regioncode = AddressConverterUtils.convertToAreaCode(savedString2);
 
                 // 拼接两个字符串
-                String finalString = savedString1 + newAddress;
+                finalString = savedString1 + newAddress;
+
                 try {
-
-                    String encodedString = URLEncoder.encode(finalString, "UTF-8");
-                    try {
-                        OkHttpClient client = new OkHttpClient();
-                        String expressUrl = "http://"+ip+":8080/REST/Misc/AddressList/saveAddressByCustomerId?param=" + encodedString + "&id=" + customerId + "&regioncode=" + regioncode + "&name=" + newName + "&tel=" + newTel;
-                        System.out.println(expressUrl);
-                        String decodedString = URLDecoder.decode(encodedString, "UTF-8");
-                        System.out.println(decodedString);
-                        final Request request = new Request.Builder().url(expressUrl).build();
-                        Call call = client.newCall(request);
-                        Response response = call.execute();
-                        String content = response.header("state");
-                        System.out.println(content);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                   encodedString = URLEncoder.encode(finalString, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }
-                Toast.makeText(AddressAddActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(AddressAddActivity.this, "发送请求", Toast.LENGTH_SHORT).show();
+                new AddressAddActivity.NetworkTask().execute();
+                new SplashActivity.NetworkTask().execute();
+
             }
         });
 
@@ -189,4 +194,35 @@ public class AddressAddActivity extends AppCompatActivity {
             options3Items.add(area);
         }
     }
+
+    private class NetworkTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // 在后台执行网络请求
+            try {
+                OkHttpClient client = new OkHttpClient();
+                String expressUrl = "http://"+ip+":8080/REST/Misc/AddressList/saveAddressByCustomerId?param=" + encodedString + "&id=" + customerId + "&regioncode=" + regioncode + "&name=" + newName + "&tel=" + newTel;
+                System.out.println(expressUrl);
+                String decodedString = URLDecoder.decode(encodedString, "UTF-8");
+                System.out.println(decodedString);
+                final Request request = new Request.Builder().url(expressUrl).build();
+                Call call = client.newCall(request);
+                Response response = call.execute();
+                String content = response.header("state");
+                System.out.println(content);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // 网络请求完成后的处理逻辑
+            Toast.makeText(AddressAddActivity.this, "看到此消息后再等2s", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
