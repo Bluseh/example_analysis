@@ -64,6 +64,8 @@ public class SplashActivity extends Activity {
                 } else if (mode == 2) {
                     intent = new Intent(SplashActivity.this, AddressActivity.class);
                     intent.putExtra("mode", 2);
+                } else if (!tel.equals("")&&!pw.equals("")) {
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
                 } else {
                     intent = new Intent(SplashActivity.this, MainActivity.class);
                 }

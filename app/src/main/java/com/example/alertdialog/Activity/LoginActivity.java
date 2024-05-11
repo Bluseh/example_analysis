@@ -83,6 +83,14 @@ public class LoginActivity extends AppCompatActivity {
         String tel = preferencesUtil.getString("telCode");
         String pw = preferencesUtil.getString("password");
         System.out.println("tel\n\npw\n"+tel+pw);
+        try {
+            LoginTask loginTask = new LoginTask(LoginActivity.this,tel,pw);
+            loginTask.execute();
+            Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+            startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
