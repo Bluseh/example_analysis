@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         actionMarkedList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, MarkedActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(MainActivity.this, MarkedActivity.class);
+                //startActivity(intent);
             }
         });
     }
