@@ -224,7 +224,7 @@
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="已评价列表(未完成，别点)"
+                android:text="已评价列表"
                 android:textColor="@color/black"
                 android:textSize="20dip" />
         </LinearLayout>

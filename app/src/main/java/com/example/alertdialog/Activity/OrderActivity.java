@@ -318,6 +318,14 @@ public class OrderActivity extends AppCompatActivity {
                 express.setSenderName(senderName);
                 express.setReceiverName(receiverName);
                 express.setStatus(0);
+
+                // 新增字段的填充
+                SharedPreferences sharedPreferences = getSharedPreferences("selectedAddress", Context.MODE_PRIVATE);
+                express.setSenderTel(sharedPreferences.getString("senderTel", ""));
+                express.setReceiverTel(sharedPreferences.getString("receiverTel", ""));
+                express.setSenderName(sharedPreferences.getString("senderName", ""));
+                express.setReceiverName(sharedPreferences.getString("receiverName", ""));
+
                 System.out.println("express为:" + express);
 
                 OkHttpClient client1 = new OkHttpClient();

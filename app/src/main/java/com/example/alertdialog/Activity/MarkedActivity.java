@@ -1,5 +1,7 @@
 package com.example.alertdialog.Activity;
 
+import static com.example.alertdialog.Activity.MainActivity.ip;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -45,7 +47,7 @@ public class MarkedActivity extends AppCompatActivity {
 
         try {
             OkHttpClient client = new OkHttpClient();
-            String customerUrl = "http://10.10.11.188:8080/REST/Misc/Customer/getCustomerNameList";
+            String customerUrl = "http://"+ip+":8080/REST/Misc/Customer/getCustomerNameList";
             final Request request = new Request.Builder().url(customerUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();
@@ -65,7 +67,7 @@ public class MarkedActivity extends AppCompatActivity {
 
         try {
             OkHttpClient client = new OkHttpClient();
-            String expressUrl = "http://10.10.11.188:8080/REST/Domain/Express/getMarkedExpressesByReceiver/" + customerId;
+            String expressUrl = "http://"+ip+":8080/REST/Domain/Express/getMarkedExpressesByReceiver/" + customerId;
             final Request request = new Request.Builder().url(expressUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();
@@ -112,13 +114,16 @@ public class MarkedActivity extends AppCompatActivity {
                 addr = selectedPackage.getSenderAddress();
                 tel = desiredCustomer.getTelCode();
                 name = desiredCustomer.getName();
-
+                String expressId = selectedPackage.getId();
+                String comment = selectedPackage.getComment();
                 Intent intent = new Intent(MarkedActivity.this, DetailActivity.class);
-                intent.putExtra("mode", 3);
+                intent.putExtra("mode", 4);
                 intent.putExtra("sender", name);
                 intent.putExtra("type", type);
                 intent.putExtra("addr", addr);
                 intent.putExtra("tel", tel);
+                intent.putExtra("expressId", expressId);
+                intent.putExtra("comment", comment);
                 startActivity(intent);
             }
         });
