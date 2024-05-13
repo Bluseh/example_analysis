@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
     private String customerId = LoginActivity.customerId;
     private Customer customer;
     PreferencesUtil preferencesUtil;
-    public static final String ip = "123.56.29.212";
+    public static final String ip = "10.166.214.20";
     //退出登录
     private static final int POS_LOGOUT = 5;
     private SlidingRootNav mSlidingRootNav;

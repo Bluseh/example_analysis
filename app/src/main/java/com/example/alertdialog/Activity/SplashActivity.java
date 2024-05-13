@@ -52,15 +52,13 @@ public class SplashActivity extends Activity {
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+
                 String tel = preferencesUtil.getString("telCode");
                 String pw = preferencesUtil.getString("password");
-                //if (tel.equals("")&&pw.equals("")) {
-                    //Toast.makeText(context, "用户名或密码错误！", Toast.LENGTH_SHORT).show();
-                    //intent = new Intent(SplashActivity.this, LoginActivity.class);
-                //} else {
-                    //intent = new Intent(SplashActivity.this, MainActivity.class);
+                //if (tel.equals("")&&pw.equals("")&&customerId.equals("")) {
+                //    Toast.makeText(context, "用户名或密码错误！", Toast.LENGTH_SHORT).show();
                 //}
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 SplashActivity.this.finish();
             }
