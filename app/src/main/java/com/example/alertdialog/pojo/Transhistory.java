@@ -14,7 +14,15 @@ public class Transhistory implements Serializable {
 
     public Transhistory() {}
 
-    public Transhistory(String eid, Double lat, Double lon) {
+    public Transhistory(String eid, Double lat, Double lon,int type) {
+        this.eid = eid;
+        this.lat = lat;
+        this.lon = lon;
+        this.type = type;
+    }
+
+    public Transhistory(Integer id, String eid, Double lat, Double lon) {
+        this.id = id;
         this.eid = eid;
         this.lat = lat;
         this.lon = lon;
@@ -67,8 +75,10 @@ public class Transhistory implements Serializable {
                 ", eid='" + eid + '\'' +
                 ", lat=" + lat +
                 ", lon=" + lon +
+                ", type=" + type +
                 '}';
     }
+
     public static final class TYPE {
         public static final int START = 1;  // 出发地
         public static final int END = 2;  // 结束地

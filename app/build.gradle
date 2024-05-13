@@ -30,6 +30,8 @@ android {
         main {
             assets {
                 srcDirs 'src\\main\\assets'
+                //让项目识别到lib的地图jar
+                jniLibs.srcDir 'libs\\BaiduLBS_AndroidSDK'
             }
         }
     }
@@ -65,6 +67,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation files('libs\\BaiduLBS_AndroidSDK\\BaiduLBS_Android.jar')
+    implementation files('libs\\HTTPComponents\\httpclient-4.2.5.jar')
+    implementation files('libs\\HTTPComponents\\httpclient-cache-4.2.5.jar')
+    implementation files('libs\\HTTPComponents\\httpcore-4.2.4.jar')
+    implementation files('libs\\HTTPComponents\\httpmime-4.2.5.jar')
 
 
 }

@@ -23,6 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baidu.location.LocationClient;
+import com.baidu.mapapi.CoordType;
+import com.baidu.mapapi.SDKInitializer;
 import com.example.alertdialog.R;
 import com.example.alertdialog.adapters.DrawerAdapter;
 import com.example.alertdialog.pojo.Customer;
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         LinearLayout actionReceiverList = findViewById(R.id.action_receiverList);
         LinearLayout actionSignedList = findViewById(R.id.action_signedList);
         LinearLayout actionMarkedList = findViewById(R.id.action_markedList);
+        //加载地图SDk，不然后续无法使用
+        intMap();
         //数据
         initData();
         initSlidingMenu(savedInstanceState);
@@ -144,6 +149,15 @@ public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnI
         //menu图标
         mMenuIcons = ResUtils.getDrawableArray(this, R.array.menu_icons);
         preferencesUtil= PreferencesUtil.getInstance(getApplicationContext());
+    }
+    private void intMap(){
+        LocationClient.setAgreePrivacy(true);
+        SDKInitializer.setAgreePrivacy(getApplicationContext(), true);
+        //在使用SDK各组件之前初始化context信息，传入ApplicationContext
+        SDKInitializer.initialize(getApplicationContext());
+        //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
+        //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
+        SDKInitializer.setCoordType(CoordType.BD09LL);
     }
 
     private void initSlidingMenu(Bundle savedInstanceState) {

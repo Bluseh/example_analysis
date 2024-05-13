@@ -10,45 +10,45 @@
             android:clickable="true">
         </com.baidu.mapapi.map.MapView>
 
-    <RelativeLayout
-        android:id="@+id/Title"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
-            <ImageView
-                android:id="@+id/back_menu"
-                android:layout_width="25dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="left"
-                android:layout_height="25dp"
-                android:src="@drawable/back"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-            <TextView
-                android:id="@+id/webview_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="物流地图"
-                android:layout_weight="7"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true">
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/Title"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:orientation="horizontal">-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerVertical="true">-->
+<!--            <ImageView-->
+<!--                android:id="@+id/back_menu"-->
+<!--                android:layout_width="25dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:gravity="left"-->
+<!--                android:layout_height="25dp"-->
+<!--                android:src="@drawable/back"/>-->
+<!--        </RelativeLayout>-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true">-->
+<!--            <TextView-->
+<!--                android:id="@+id/webview_title"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="物流地图"-->
+<!--                android:layout_weight="7"-->
+<!--                android:textColor="#000000"-->
+<!--                android:textSize="18sp"-->
+<!--                />-->
+<!--        </RelativeLayout>-->
+<!--        <RelativeLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_alignParentRight="true">-->
 
-        </RelativeLayout>
+<!--        </RelativeLayout>-->
 
-    </RelativeLayout>
+<!--    </RelativeLayout>-->
 
 </FrameLayout>
