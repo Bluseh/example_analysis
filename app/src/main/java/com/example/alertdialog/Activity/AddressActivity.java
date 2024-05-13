@@ -152,6 +152,13 @@ public class AddressActivity extends AppCompatActivity {
                             editor.putString("senderAddress", addresses.get(position));
                             editor.putString("senderRegionCode", regionCodes.get(position));
                             editor.apply();
+                            Intent resultIntent=new Intent();
+                            resultIntent.putExtra("senderName",names.get(position));
+                            resultIntent.putExtra("senderTel",telCodes.get(position));
+                            resultIntent.putExtra("senderAddress",addresses.get(position));
+                            resultIntent.putExtra("senderRegionCode",regionCodes.get(position));
+                            resultIntent.putExtra("mode","1");
+                            setResult(RESULT_OK,resultIntent);
                             finish();
                         } else if (mode == 2) {
                             editor.putString("receiverName", names.get(position));
@@ -159,6 +166,13 @@ public class AddressActivity extends AppCompatActivity {
                             editor.putString("receiverAddress", addresses.get(position));
                             editor.putString("receiverRegionCode", regionCodes.get(position));
                             editor.apply();
+                            Intent resultIntent=new Intent();
+                            resultIntent.putExtra("receiverName",names.get(position));
+                            resultIntent.putExtra("receiverTel",telCodes.get(position));
+                            resultIntent.putExtra("receiverAddress",addresses.get(position));
+                            resultIntent.putExtra("receiverRegionCode",regionCodes.get(position));
+                            resultIntent.putExtra("mode","2");
+                            setResult(RESULT_OK,resultIntent);
                             finish();
                         } else {
                             Toast.makeText(AddressActivity.this, "异常", Toast.LENGTH_SHORT);
@@ -198,14 +212,14 @@ public class AddressActivity extends AppCompatActivity {
                     }
                 });
                 recyclerView.setAdapter(adapter);
-                refreshButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        finish();
-                        startActivity(getIntent());
-                        Toast.makeText(AddressActivity.this, "页面已刷新！", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                refreshButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        finish();
+//                        startActivity(getIntent());
+//                        Toast.makeText(AddressActivity.this, "页面已刷新！", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override

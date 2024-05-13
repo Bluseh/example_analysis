@@ -33,7 +33,7 @@ import okhttp3.Response;
 
 public class SplashActivity extends Activity {
 
-    private static int SPLASH_DISPLAY_LENGHT = 2500;
+    private static int SPLASH_DISPLAY_LENGHT = 1500;
     public static List<Address> splashedAddressesList;
     private ImageView imageView;
     PreferencesUtil preferencesUtil;
