@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
+                            finish();
                             startActivity(intent);
                         }
                     }, 1500);
@@ -88,15 +89,19 @@ public class LoginActivity extends AppCompatActivity {
         customer=new Customer();
         String tel = preferencesUtil.getString("telCode");
         String pw = preferencesUtil.getString("password");
-        System.out.println("tel\n\npw\n"+tel+pw);
-        try {
-            LoginTask loginTask = new LoginTask(LoginActivity.this,tel,pw);
-            loginTask.execute();
-            Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
-            startActivity(intent);
-        }catch (Exception e){
-            e.printStackTrace();
+        System.out.println("pre\ntel\npw\n"+tel+pw);
+        if (!tel.equals("")&&!pw.equals("")){
+            try {
+                LoginTask loginTask = new LoginTask(this,tel,pw);
+                loginTask.execute();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                finish();
+                startActivity(intent);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
+
 
     }
 

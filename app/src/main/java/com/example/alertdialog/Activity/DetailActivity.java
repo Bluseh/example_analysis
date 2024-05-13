@@ -40,6 +40,8 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView backImageView;
     private TextView titleTextView;
     private ImageView detailImageView;
+    private ImageView locationImageView;
+    private int mode;
     String ExpressId = "";
 
     @Override
@@ -50,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
         backImageView = findViewById(R.id.back_menu);
         titleTextView = findViewById(R.id.webview_title);
         detailImageView = findViewById(R.id.main_detail);
+        locationImageView = findViewById(R.id.main_location);
 
         TextView tv1 = findViewById(R.id.textViewRecipient);
         TextView tv2 = findViewById(R.id.textViewSender);
@@ -66,11 +69,10 @@ public class DetailActivity extends AppCompatActivity {
         evaluate.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
-        int mode = intent.getIntExtra("mode", -1);
+        mode = intent.getIntExtra("mode", -1);
 
         try {
             ExpressId=(String) intent.getStringExtra("expressId");
-            //System.out.println("\nyyq\ndetail_expressid"+ExpressId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -175,6 +177,16 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DetailActivity.this,Current_DetailActivity.class);
                 intent.putExtra("expressId",ExpressId);
+                intent.putExtra("mode",mode);
+                startActivity(intent);
+            }
+        });
+        locationImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailActivity.this,ExpressMapActivity.class);
+                intent.putExtra("expressId",ExpressId);
+                intent.putExtra("mode",mode);
                 startActivity(intent);
 
             }

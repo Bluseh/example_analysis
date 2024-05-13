@@ -119,6 +119,7 @@ public class SendActivity extends AppCompatActivity {
                 Express selectedPackage = packageList.get(position);
                 int rec = selectedPackage.getReceiver();
                 int type = selectedPackage.getType();
+                String expressId = selectedPackage.getId();
                 String name = null;
                 String addr = null;
                 String tel = null;
@@ -139,6 +140,7 @@ public class SendActivity extends AppCompatActivity {
                 intent.putExtra("type", type);
                 intent.putExtra("addr", addr);
                 intent.putExtra("tel", tel);
+                intent.putExtra("expressId",expressId);
                 startActivity(intent);
             }
         });

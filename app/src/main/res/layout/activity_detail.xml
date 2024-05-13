@@ -41,6 +41,20 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true">
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true">
+            <ImageView
+                android:id="@+id/main_location"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toRightOf="@+id/main_detail"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_location"/>
             <ImageView
                 android:id="@+id/main_detail"
                 android:layout_width="25dp"
@@ -109,12 +123,17 @@
         android:text="签收"
         android:layout_below="@id/evaluate"
         />
+
     <ImageView
         android:id="@+id/barcodeImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/sign"/>
+        android:layout_below="@+id/sign"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
+
 
 
 </RelativeLayout>

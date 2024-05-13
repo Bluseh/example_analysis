@@ -6,14 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,9 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.alertdialog.pojo.Address;
 import com.example.alertdialog.adapters.AddressAdapter;
 import com.example.alertdialog.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class AddressActivity extends AppCompatActivity {
     private Button addButton;
     private Button refreshButton;
 
-    private List<Address> addressesList;
+    private List<Address> addressesList = null;
 
     private List<String> addresses = new ArrayList<>();
     private List<String> names = new ArrayList<>();
@@ -53,9 +52,10 @@ public class AddressActivity extends AppCompatActivity {
     private AddressAdapter adapter;
     private String customerId = LoginActivity.customerId;
 
-    private List<Address> splashedAddressList = SplashActivity.splashedAddressesList;
+
 
     private String encodedString;
+    private Integer mode;
 
 
     @Override
@@ -63,102 +63,15 @@ public class AddressActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
         Intent intent = getIntent();
-        Integer mode = intent.getIntExtra("mode", 0);
-
+        mode = intent.getIntExtra("mode", 0);
         recyclerView = findViewById(R.id.recycler_view);
         addButton = findViewById(R.id.addButton);
         refreshButton = findViewById(R.id.refreshButton);
 
-        addressesList = splashedAddressList;
-        System.out.println("已加载的地址簿:");
-        System.out.println(addressesList);
+        new AddressListTask().execute();
 
-        for (Address address : addressesList) {
-            // System.out.println(address.getAddress());
-            addresses.add(address.getAddress());
-            names.add(address.getName());
-            telCodes.add(address.getTel_code());
-            regionCodes.add(address.getRegionCode());
-        }
-
-        adapter = new AddressAdapter(names, telCodes, addresses);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter.setOnItemClickListener(new AddressAdapter.OnItemClickListener() {
-
-            //TODO: 删除只区分地址，不区分名字和电话号
-            @Override
-            public void onItemClick(int position) {
-                // 获取SharedPreferences实例
-                SharedPreferences sharedPreferences = getSharedPreferences("selectedAddress", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (mode == 1) {
-                    editor.putString("senderName", names.get(position));
-                    editor.putString("senderTel", telCodes.get(position));
-                    editor.putString("senderAddress", addresses.get(position));
-                    editor.putString("senderRegionCode", regionCodes.get(position));
-                } else if (mode == 2) {
-                    editor.putString("receiverName", names.get(position));
-                    editor.putString("receiverTel", telCodes.get(position));
-                    editor.putString("receiverAddress", addresses.get(position));
-                    editor.putString("receiverRegionCode", regionCodes.get(position));
-                } else {
-                    Toast.makeText(AddressActivity.this, "异常", Toast.LENGTH_SHORT);
-                }
-                editor.apply();
-                finish();
-            }
-
-            @Override
-            public void onItemLongClick(int position) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(AddressActivity.this);
-                builder.setTitle("提醒")
-                        .setMessage("你确定要删除该地址吗？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String oldAddress = addresses.get(position);
-                                addresses.remove(position);
-                                names.remove(position);
-                                telCodes.remove(position);
-                                regionCodes.remove(position);
-                                splashedAddressList.remove(position);
-                                adapter.notifyItemRemoved(position);
-
-                                try {
-                                    encodedString = URLEncoder.encode(oldAddress, "UTF-8");
-                                } catch (UnsupportedEncodingException e) {
-                                    throw new RuntimeException(e);
-                                }
-
-                                Toast.makeText(AddressActivity.this, "发送请求", Toast.LENGTH_SHORT).show();
-                                new AddressActivity.NetworkTask().execute();
-
-                            }
-                        })
-                        .setNegativeButton("取消", null)
-                        .show();
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
-
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(getIntent());
-                Toast.makeText(AddressActivity.this, "页面已刷新！", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddressActivity.this, AddressAddActivity.class);
-                startActivity(intent);
-            }
-        });
     }
+
 
     private class NetworkTask extends AsyncTask<Void, Void, Void> {
 
@@ -190,5 +103,123 @@ public class AddressActivity extends AppCompatActivity {
         }
     }
 
+    private class AddressListTask extends AsyncTask<Void, Void, List<Address>> {
+        @Override
+        protected List<Address> doInBackground(Void... voids) {
+            List<Address> addresses = new ArrayList<>();
+            try {
+                OkHttpClient client = new OkHttpClient();
+                String expressUrl = "http://" + ip + ":8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
+                Request request = new Request.Builder().url(expressUrl).build();
+                System.out.println("\nyya\n753951" + expressUrl);
+                Response response = client.newCall(request).execute();
+                String content = response.body().string();
+                Gson gson = new Gson();
+                Type addressListType = new TypeToken<List<Address>>() {
+                }.getType();
+                addresses = gson.fromJson(content, addressListType);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return addresses;
+        }
+
+        @Override
+        protected void onPostExecute(List<Address> result) {
+            addressesList = result;
+            if (addressesList != null) {
+                System.out.println("asdas\n123\n" + addressesList.toString());
+                for (Address address : addressesList) {
+                    addresses.add(address.getAddress());
+                    names.add(address.getName());
+                    telCodes.add(address.getTel_code());
+                    regionCodes.add(address.getRegionCode());
+                }
+                adapter = new AddressAdapter(names, telCodes, addresses);
+                recyclerView.setLayoutManager(new LinearLayoutManager(AddressActivity.this));
+
+                adapter.setOnItemClickListener(new AddressAdapter.OnItemClickListener() {
+
+                    //TODO: 删除只区分地址，不区分名字和电话号
+                    @Override
+                    public void onItemClick(int position) {
+                        // 获取SharedPreferences实例
+                        SharedPreferences sharedPreferences = getSharedPreferences("selectedAddress", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (mode == 1) {
+                            editor.putString("senderName", names.get(position));
+                            editor.putString("senderTel", telCodes.get(position));
+                            editor.putString("senderAddress", addresses.get(position));
+                            editor.putString("senderRegionCode", regionCodes.get(position));
+                            editor.apply();
+                            finish();
+                        } else if (mode == 2) {
+                            editor.putString("receiverName", names.get(position));
+                            editor.putString("receiverTel", telCodes.get(position));
+                            editor.putString("receiverAddress", addresses.get(position));
+                            editor.putString("receiverRegionCode", regionCodes.get(position));
+                            editor.apply();
+                            finish();
+                        } else {
+                            Toast.makeText(AddressActivity.this, "异常", Toast.LENGTH_SHORT);
+                        }
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(int position) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AddressActivity.this);
+                        builder.setTitle("提醒")
+                                .setMessage("你确定要删除该地址吗？")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String oldAddress = addresses.get(position);
+                                        addresses.remove(position);
+                                        names.remove(position);
+                                        telCodes.remove(position);
+                                        regionCodes.remove(position);
+                                        addressesList.remove(position);
+                                        adapter.notifyItemRemoved(position);
+
+                                        try {
+                                            encodedString = URLEncoder.encode(oldAddress, "UTF-8");
+                                        } catch (UnsupportedEncodingException e) {
+                                            throw new RuntimeException(e);
+                                        }
+
+                                        Toast.makeText(AddressActivity.this, "发送请求", Toast.LENGTH_SHORT).show();
+                                        new AddressActivity.NetworkTask().execute();
+
+                                    }
+                                })
+                                .setNegativeButton("取消", null)
+                                .show();
+                    }
+                });
+                recyclerView.setAdapter(adapter);
+                refreshButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                        startActivity(getIntent());
+                        Toast.makeText(AddressActivity.this, "页面已刷新！", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(AddressActivity.this, AddressAddActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+        }
+    }
 }
+
+
+
 

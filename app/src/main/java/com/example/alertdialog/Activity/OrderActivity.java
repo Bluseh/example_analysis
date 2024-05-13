@@ -110,7 +110,7 @@ public class OrderActivity extends AppCompatActivity {
 //    private Map<String, RegionData> Province_ProvinceRegionData = new HashMap<>();
 //    private Map<String, RegionData> City_CityRegionData = new HashMap<>();
 
-    private String baseUrl = "http://"+ip+":8081/REST/";
+    private String baseUrl = "http://"+ip+":8080/REST/";
     OkHttpClient client = new OkHttpClient();
 
 //    private List<RegionData> provinceList;

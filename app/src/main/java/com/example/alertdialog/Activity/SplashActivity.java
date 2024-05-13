@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.alertdialog.R;
@@ -34,7 +35,9 @@ public class SplashActivity extends Activity {
 
     private static int SPLASH_DISPLAY_LENGHT = 2500;
     public static List<Address> splashedAddressesList;
+    private ImageView imageView;
     PreferencesUtil preferencesUtil;
+
 
 
     @Override
@@ -43,27 +46,28 @@ public class SplashActivity extends Activity {
         preferencesUtil = PreferencesUtil.getInstance(getApplicationContext());
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
+        imageView = findViewById(R.id.iv_image);
         Context context = this.getApplicationContext();
 
-        // 启动网络请求
-        new NetworkTask().execute();
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent intent = null;
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 String tel = preferencesUtil.getString("telCode");
                 String pw = preferencesUtil.getString("password");
-                if (customerId.isEmpty()) {
-                    Toast.makeText(context, "用户名或密码错误！", Toast.LENGTH_SHORT).show();
-                    intent = new Intent(SplashActivity.this, LoginActivity.class);
-                } else {
-                    intent = new Intent(SplashActivity.this, MainActivity.class);
-                }
+                //if (tel.equals("")&&pw.equals("")) {
+                    //Toast.makeText(context, "用户名或密码错误！", Toast.LENGTH_SHORT).show();
+                    //intent = new Intent(SplashActivity.this, LoginActivity.class);
+                //} else {
+                    //intent = new Intent(SplashActivity.this, MainActivity.class);
+                //}
                 startActivity(intent);
                 SplashActivity.this.finish();
             }
         }, SPLASH_DISPLAY_LENGHT);
+
     }
+
 
     public static class NetworkTask extends AsyncTask<Void, Void, Void> {
 
@@ -73,7 +77,7 @@ public class SplashActivity extends Activity {
             try {
                 OkHttpClient client = new OkHttpClient();
                 String expressUrl = "http://"+ip+":8080/REST/Misc/AddressList/getAddressListByCustomerId/" + customerId;
-                System.out.println(expressUrl);
+                System.out.println("\nyyq\nawdsa\n12345678"+expressUrl);
                 final Request request = new Request.Builder().url(expressUrl).build();
                 Call call = client.newCall(request);
                 Response response = call.execute();

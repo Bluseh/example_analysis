@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu_titles">
+        <item>我的包裹</item>
+        <item>我的位置</item>
+        <item>我的消息</item>
+        <item>关于</item>
+        <item />
+        <item>退出登录</item>
+    </string-array>
+    <array name="menu_icons">
+        <item>@drawable/ic_package</item>
+        <item>@drawable/ic_location</item>
+        <item>@drawable/ic_message</item>
+        <item>@drawable/ic_about</item>
+        <item>0</item>
+        <item>@drawable/ic_logout</item>
+    </array>
+</resources>

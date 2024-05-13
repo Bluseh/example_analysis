@@ -104,11 +104,19 @@ public class LoginTask extends AsyncTask<Void, Void, String> {
                     Toast.makeText(context, "customerId已更新", Toast.LENGTH_SHORT).show();
                     System.out.println("\nyyq\n\nyyqn"+jsonResponse.optString("id"));
                     Customer customer= new Customer();
+                    customer.setId(Integer.parseInt(jsonResponse.optString("id")));
+                    customer.setName(jsonResponse.optString("name"));
+                    customer.setAddress(jsonResponse.optString("address"));
                     customer.setTelCode(jsonResponse.optString("telCode"));
+                    customer.setRegionCode(jsonResponse.optString("regionCode"));
                     customer.setPassword(jsonResponse.optString("password"));
+                    preferencesUtil.putString("id",customer.getId().toString());
+                    preferencesUtil.putString("name",customer.getName());
+                    preferencesUtil.putString("address",customer.getAddress());
                     preferencesUtil.putString("telCode",customer.getTelCode());
+                    preferencesUtil.putString("regionCode",customer.getRegionCode());
                     preferencesUtil.putString("password",customer.getPassword());
-                    Log.d(TAG, "登录成功，customerId = " + customerId);
+                    Log.d(TAG, "登录成功，customer : " + customer.toString());
                 } catch (JSONException e) {
                     Log.e(TAG, "解析 JSON 出错：" + e.getMessage());
                 }
