@@ -19,6 +19,7 @@ import com.example.alertdialog.pojo.Customer;
 
 import com.example.alertdialog.R;
 import com.example.alertdialog.pojo.Express;
+import com.example.alertdialog.util.PreferencesUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -40,10 +41,12 @@ public class SignedActivity extends AppCompatActivity {
     List<Customer> customerList = null;
     private String customerId = LoginActivity.customerId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signed_list);
+
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);

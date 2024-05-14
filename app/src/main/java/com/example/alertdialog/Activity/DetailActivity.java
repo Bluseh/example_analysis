@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alertdialog.R;
 import com.example.alertdialog.pojo.Express;
+import com.example.alertdialog.util.PreferencesUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -56,12 +57,17 @@ public class DetailActivity extends AppCompatActivity {
     private Context context = DetailActivity.this;
     private String comment;
     private String expressId;
-
+    private String customerTel;
+    PreferencesUtil preferencesUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Theme_NoTitle);
         setContentView(R.layout.activity_detail);
+        //获取缓存的当前登录用户的电话号码
+        preferencesUtil = PreferencesUtil.getInstance(getApplicationContext());
+        customerTel = preferencesUtil.getString("telCode");
+
         backImageView = findViewById(R.id.back_menu);
         titleTextView = findViewById(R.id.webview_title);
         detailImageView = findViewById(R.id.main_detail);
@@ -131,7 +137,7 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Toast.makeText(DetailActivity.this, "签收成功", Toast.LENGTH_SHORT).show();
-                        generateBarcode(expressId);
+                        generateBarcode(customerTel);
                     }
                 });
             } else {
