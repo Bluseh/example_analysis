@@ -50,8 +50,8 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity implements DrawerAdapter.OnItemSelectedListener,View.OnTouchListener,ClickUtils.OnClick2ExitListener{
 
     private String customerId = LoginActivity.customerId;
-    private Customer customer;
     PreferencesUtil preferencesUtil;
+    private Customer customer;
     public static final String ip = "10.10.11.226";
     //退出登录
     private static final int POS_LOGOUT = 5;

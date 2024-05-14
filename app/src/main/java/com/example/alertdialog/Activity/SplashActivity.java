@@ -44,7 +44,8 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferencesUtil = PreferencesUtil.getInstance(getApplicationContext());
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        setTheme(R.style.Theme_NoTitle);
+        //getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
         imageView = findViewById(R.id.iv_image);
         Context context = this.getApplicationContext();
