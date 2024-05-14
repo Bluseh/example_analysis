@@ -63,6 +63,13 @@
                 android:src="@drawable/detail"/>
         </RelativeLayout>
     </RelativeLayout>
+    <TextView
+        android:id="@+id/textViewExpressId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="快递单号:"
+        android:layout_below="@+id/Title"
+        android:layout_marginTop="16dp"/>
 
     <!-- 收件人 -->
     <TextView
@@ -70,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="收件人:"
-        android:layout_below="@+id/Title"
+        android:layout_below="@+id/textViewExpressId"
         android:layout_marginTop="16dp"/>
 
     <!-- 寄件人 -->
@@ -108,13 +115,20 @@
         android:text="收件人电话:"
         android:layout_below="@id/textViewAddress"
         android:layout_marginTop="16dp"/>
+    <TextView
+        android:id="@+id/textViewComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="评价："
+        android:layout_below="@id/textViewPhoneNumber"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/evaluate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="评价"
-        android:layout_below="@id/textViewPhoneNumber"
+        android:layout_below="@id/textViewComment"
         />
     <Button
         android:id="@+id/sign"

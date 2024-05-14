@@ -3,6 +3,7 @@ package com.example.alertdialog.Activity;
 import static com.xuexiang.xui.XUI.getContext;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,17 +39,16 @@ public class LoginActivity extends AppCompatActivity {
     PreferencesUtil preferencesUtil;
     private Customer customer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         preferencesUtil = PreferencesUtil.getInstance(getApplicationContext());
-
         etPhone = findViewById(R.id.etPhone);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,16 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     LoginTask loginTask = new LoginTask(LoginActivity.this,telCode, password);
                     loginTask.execute();
-                    Toast.makeText(LoginActivity.this, "发送请求", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            Intent intent = new Intent(LoginActivity.this, SplashActivity.class);
-                            finish();
-                            startActivity(intent);
-                        }
-                    }, 1500);
                 }
-
             }
         });
 
@@ -94,9 +85,6 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 LoginTask loginTask = new LoginTask(this,tel,pw);
                 loginTask.execute();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                finish();
-                startActivity(intent);
             }catch (Exception e){
                 e.printStackTrace();
             }

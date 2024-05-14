@@ -29,8 +29,18 @@ public class Express implements Serializable {
 	private Timestamp deliverTime;
 	private Integer signer;
 	private Timestamp signTime;
+	private String comment;
 
 	// Getters and Setters
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -233,6 +243,7 @@ public class Express implements Serializable {
 				", deliverTime=" + deliverTime +
 				", signer=" + signer +
 				", signTime=" + signTime +
+				", comment=" + comment +
 				'}';
 	}
 	public static final class STATUS{

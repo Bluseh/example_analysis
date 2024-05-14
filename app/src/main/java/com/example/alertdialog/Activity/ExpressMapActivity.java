@@ -8,6 +8,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.baidu.location.LocationClient;
+import com.baidu.mapapi.CoordType;
+import com.baidu.mapapi.SDKInitializer;
 import com.example.alertdialog.R;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -66,7 +69,7 @@ public class ExpressMapActivity extends AppCompatActivity {
             Call call = client.newCall(request);
             Response response = call.execute();
             String content = response.body().string();
-            System.out.println("\nbody:" + content);
+            System.out.println("\nExpress_body:" + content);
             //这个很关键，不然会因为Express有些属性没有而崩掉
             mCurrentExpress = JsonUtils.fromJson(content, new TypeToken<Express>() {
             });
@@ -81,7 +84,7 @@ public class ExpressMapActivity extends AppCompatActivity {
             Call call = client.newCall(request);
             Response response = call.execute();
             String content = response.body().string();
-            System.out.println("\nbody:" + content);
+            System.out.println("\nTranshistoryList_body:" + content);
             //这个很关键，不然会因为Express有些属性没有而崩掉
             transhistoryList = JsonUtils.fromJson(content, new TypeToken<List<Transhistory>>() {
             });
@@ -101,23 +104,37 @@ public class ExpressMapActivity extends AppCompatActivity {
         MyLocationConfiguration myLocationConfiguration = new MyLocationConfiguration(
                 MyLocationConfiguration.LocationMode.NORMAL, true, null);
         mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
+        List<LatLng> points = new ArrayList<>();
         if (transhistoryList == null) {
-            XToast.error(getContext(), "快件历史记录为空！").show();
+            /*
+            应该是快件刚下单
+             */
+            XToast.error(getContext(), "快件历史获取失败！").show();
             return;
+        } else if (transhistoryList.size() == 1) {
+            Transhistory transhistory = transhistoryList.get(0);
+            BitmapDescriptor bitmap = BitmapDescriptorFactory
+                    .fromResource(R.drawable.icon_start);
+            OverlayOptions option = new MarkerOptions()
+                    .position(new LatLng(transhistory.getLat(), transhistory.getLon()))
+                    .icon(bitmap);
+            mBaiduMap.addOverlay(option);
+            points.add(new LatLng(transhistory.getLat(), transhistory.getLon()));
+            System.out.println("\nyyq\nyyq\n+point:\n" + points.toString());
         } else {
-            List<LatLng> points = new ArrayList<>();
             for (Transhistory transhistory : transhistoryList) {
-
+                System.out.println("\nyyq\nyyq\nTrans_history:\n" + transhistory.toString());
                 if (transhistory.getType() == Transhistory.TYPE.START) {
-                    System.out.println("\nyyq\nyyq\nSTART1_Trans_history:\n" + transhistory.toString());
+                    System.out.println("\nyyq\nyyq\nSTART_Trans_history:\n" + transhistory.toString());
                     BitmapDescriptor bitmap = BitmapDescriptorFactory
                             .fromResource(R.drawable.icon_start);
                     OverlayOptions option = new MarkerOptions()
                             .position(new LatLng(transhistory.getLat(), transhistory.getLon()))
                             .icon(bitmap);
                     mBaiduMap.addOverlay(option);
+
                 } else if (transhistory.getType() == Transhistory.TYPE.END) {
-                    System.out.println("\nyyq\nyyq\nEND1_Trans_history:\n" + transhistory.toString());
+                    System.out.println("\nyyq\nyyq\nEND_Trans_history:\n" + transhistory.toString());
                     BitmapDescriptor bitmap = BitmapDescriptorFactory
                             .fromResource(R.drawable.icon_end);
                     OverlayOptions option = new MarkerOptions()
@@ -125,7 +142,7 @@ public class ExpressMapActivity extends AppCompatActivity {
                             .icon(bitmap);
                     mBaiduMap.addOverlay(option);
                 } else if (transhistory.getType() == Transhistory.TYPE.TRANSFER) {
-                    System.out.println("\nyyq\nyyq\nTRANSFER1_history:\n" + transhistory.toString());
+                    System.out.println("\nyyq\nyyq\nTRANSFER_history:\n" + transhistory.toString());
                     BitmapDescriptor bitmap = BitmapDescriptorFactory
                             .fromResource(R.drawable.icon_mark);
                     OverlayOptions option = new MarkerOptions()
@@ -143,13 +160,15 @@ public class ExpressMapActivity extends AppCompatActivity {
                     .points(points);
             //在地图上绘制折线
             mBaiduMap.addOverlay(mOverlayOptions);
-
-            Transhistory transhistory = transhistoryList.get(transhistoryList.size() - 1);
-            MapStatusUpdate update = MapStatusUpdateFactory.newLatLngZoom(new LatLng(transhistory.getLat(), transhistory.getLon()), 17);
-            mBaiduMap.animateMapStatus(update);
         }
-
-
+        //将地图视图的中心移动到历史轨迹的最后一个点，并进行缩放。
+        Transhistory transhistory = transhistoryList.get(transhistoryList.size() - 1);
+        MapStatusUpdate update = MapStatusUpdateFactory.newLatLngZoom(new LatLng(transhistory.getLat(), transhistory.getLon()), 17);
+//            MapStatusUpdate update = MapStatusUpdateFactory.newLatLngZoom(new LatLng(39.779675,113.541423 ), 17);
+        mBaiduMap.animateMapStatus(update);
     }
 
+
 }
+
+

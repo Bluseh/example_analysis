@@ -135,7 +135,7 @@ public class AddressAddActivity extends AppCompatActivity {
 
                 Toast.makeText(AddressAddActivity.this, "发送请求", Toast.LENGTH_SHORT).show();
                 new AddressAddActivity.NetworkTask().execute();
-                new SplashActivity.NetworkTask().execute();
+                // new SplashActivity.NetworkTask().execute();
 
             }
         });

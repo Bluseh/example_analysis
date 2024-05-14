@@ -38,7 +38,7 @@
             android:layout_marginEnd="10dp"
             android:text="刷新"
             android:textColor="@android:color/white"
-            android:visibility="visible" />
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <ScrollView
@@ -59,14 +59,19 @@
             <TextView
                 android:id="@+id/weightTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="预估重量" />
 
             <EditText
                 android:id="@+id/weightEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="kg"/>
+
         </LinearLayout>
         <!--  费用  -->
         <LinearLayout
@@ -77,7 +82,7 @@
             <TextView
                 android:id="@+id/feeTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="预估费用" />
 
             <EditText
@@ -85,6 +90,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="元"/>
+
         </LinearLayout>
         <!--  类型  -->
         <LinearLayout
@@ -231,6 +241,12 @@
         android:background="@android:color/holo_red_light"
         android:text="下单"
         android:textColor="@android:color/white" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
     <!--  条形码图片  -->
     <ImageView
         android:id="@+id/barcodeImageView"

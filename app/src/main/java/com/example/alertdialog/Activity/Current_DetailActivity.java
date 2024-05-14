@@ -67,12 +67,12 @@ public class Current_DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         expressId = intent.getStringExtra("expressId");
         mode = intent.getIntExtra("mode", -1);
-        if (mode==1){
+        if (mode == 1) {
             titleTextView.setText("寄件物流信息");
-        } else if (mode==2) {
+        } else if (mode == 2) {
             titleTextView.setText("收件物流信息");
         }
-        System.out.println("\nexpressId753951:\n"+expressId);
+        System.out.println("\nexpressId753951:\n" + expressId);
         initRecyclerView();
 //        if (expressId=="") {
 //            //XToast.error(this, "未获得快递单号").show();
@@ -82,10 +82,11 @@ public class Current_DetailActivity extends AppCompatActivity {
 
 
     }
+
     private void initRecyclerView() {
         try {
             OkHttpClient client = new OkHttpClient();
-            String expressUrl = "http://"+ip+":8080/REST/Domain/Express/getExpress/"+expressId;
+            String expressUrl = "http://" + ip + ":8080/REST/Domain/Express/getExpress/" + expressId;
             //System.out.println("\nyyq123\nexpressId:\n"+expressId);
             final Request request = new Request.Builder().url(expressUrl).build();
             Call call = client.newCall(request);
@@ -93,11 +94,12 @@ public class Current_DetailActivity extends AppCompatActivity {
             String content = response.body().string();
             //System.out.println("\nbody:"+content);
             //这个很关键，不然会因为Express有些属性没有而崩掉
-            express = JsonUtils.fromJson(content,new TypeToken<Express>() {});
+            express = JsonUtils.fromJson(content, new TypeToken<Express>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
-        expressidTextView.setText("快件单号:" +express.getId());
+        expressidTextView.setText("快件单号:" + express.getId());
         String status = "快件状态:";
         switch (express.getStatus()) {
             case STATUS_CREATED:
@@ -132,25 +134,18 @@ public class Current_DetailActivity extends AppCompatActivity {
         traceRv.setAdapter(mAdapter);
         try {
             OkHttpClient client = new OkHttpClient();
-            String customerUrl = "http://"+ip+":8080/REST/Domain/Express/getExpressTrackList/"+expressId;
-            //System.out.println("\nyyq\nexpressId:\n"+expressId);
+            String customerUrl = "http://" + ip + ":8080/REST/Domain/Express/getExpressTrackList/" + expressId;
             final Request request = new Request.Builder().url(customerUrl).build();
             Call call = client.newCall(request);
             Response response = call.execute();
             String content = response.body().string();
 
-            //System.out.println("\nyyq\nExpressTrackList:"+content);
-
             expresstrackList = JsonUtils.fromJson(content,
-                    new TypeToken<List<ExpressTrack>>(){});
-            //System.out.println("\nyyq\n\n"+gson.fromJson(content, expressTrackListType));
-            //express = gson.fromJson(content, customerListType);
-
+                    new TypeToken<List<ExpressTrack>>() {
+                    });
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        ExpressTrackListLoader loader = new ExpressTrackListLoader(mAdapter, this);
-//        loader.getExpressTrackList(mCurrentExpress.getId());
         mAdapter.setData(expresstrackList);
         mAdapter.notifyDataSetChanged();
     }

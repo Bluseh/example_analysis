@@ -21,11 +21,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alertdialog.R;
@@ -67,26 +69,30 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OrderActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE_SECOND_ACTIVITY = 1;
+    private ProgressBar progressBar;
+    private Express express;
+
     private EditText weightEditText;
     private EditText feeEditText;
     private EditText idEditText;
     private EditText createTimeEditText;
     private Spinner typeSpinner;
-    private TextView senderTextView;
+    //    private TextView senderTextView;
     private TextView senderTextViewProfile;
     private LinearLayout sender;
     private TextView senderAddressTextView;
     private LinearLayout receiver;
     private TextView receiverTextViewProfile;
-    private TextView receiverTextView;
+    //    private TextView receiverTextView;
     private TextView receiverAddressTextView;
 
 
     private Button submitBtn;
-//    private Button addressesBtn;
+    //    private Button addressesBtn;
     private ImageView barcodeImageView;
     private Button backButton;
-    private Button refreshButton;
+//    private Button refreshButton;
 
 
     private String senderName;
@@ -98,11 +104,12 @@ public class OrderActivity extends AppCompatActivity {
     private String receiverTel;
     private String receiverAddress;
     private String receiverRegionCode;
+    private String createTime;
 
 
     private List<Customer> customers = new ArrayList<>();
     private List<Address> addressList = new ArrayList<>();
-    private Map<String, String> customer_address;
+
     private Map<String, Integer> customer = new HashMap<>();
     private Map<String, Integer> type = new HashMap<>();
 //    private Map<String, String> Address_RegionCode = new HashMap<>();
@@ -110,7 +117,7 @@ public class OrderActivity extends AppCompatActivity {
 //    private Map<String, RegionData> Province_ProvinceRegionData = new HashMap<>();
 //    private Map<String, RegionData> City_CityRegionData = new HashMap<>();
 
-    private String baseUrl = "http://"+ip+":8080/REST/";
+    private String baseUrl = "http://" + ip + ":8080/REST/";
     OkHttpClient client = new OkHttpClient();
 
 //    private List<RegionData> provinceList;
@@ -129,12 +136,8 @@ public class OrderActivity extends AppCompatActivity {
         loadCustomerData();
 //        loadAddressData();
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitOrder();
-            }
-        });
+
+        submitOrder();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +146,7 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void initializeViews() {
         // Initialize EditText, Spinner, and Button
@@ -163,25 +167,26 @@ public class OrderActivity extends AppCompatActivity {
 
 
         // Bind views
-        refreshButton = findViewById(R.id.refreshButton);
+//        refreshButton = findViewById(R.id.refreshButton);
         weightEditText = findViewById(R.id.weightEditText);
         feeEditText = findViewById(R.id.feeEditText);
+        feeEditText.setEnabled(false);
         idEditText = findViewById(R.id.idEditText);
         idEditText.setEnabled(false);
         createTimeEditText = findViewById(R.id.createTimeEditText);
         createTimeEditText.setEnabled(false);
         typeSpinner = findViewById(R.id.typeSpinner);
         typeSpinner.setAdapter(arrayAdapter);
-
+        progressBar = findViewById(R.id.progressBar);
         sender = findViewById(R.id.sender);
         receiver = findViewById(R.id.receiver);
-        senderTextView = findViewById(R.id.senderTextView);
-        senderTextViewProfile=findViewById(R.id.senderTextViewProfile);
+//        senderTextView = findViewById(R.id.senderTextView);
+        senderTextViewProfile = findViewById(R.id.senderTextViewProfile);
 //        senderTextView.setEnabled(false);
         senderAddressTextView = findViewById(R.id.senderTextView_address);
 //        senderAddressTextView.setEnabled(false);
-        receiverTextView = findViewById(R.id.receiverTextView);
-        receiverTextViewProfile=findViewById(R.id.receiverTextViewProfile);
+//        receiverTextView = findViewById(R.id.receiverTextView);
+        receiverTextViewProfile = findViewById(R.id.receiverTextViewProfile);
 //        receiverTextView.setEnabled(false);
         receiverAddressTextView = findViewById(R.id.receiverTextView_address);
 //        receiverAddressTextView.setEnabled(false);
@@ -220,9 +225,6 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private void loadCustomerData() {
-        // Load customer data from the server
-        // Populate customer list and spinner adapter
-
         // 创建一个请求对象，指定要访问的URL
         Request request = new Request.Builder()
                 .url(baseUrl + "Misc/Customer/getCustomerNameList") // 示例URL
@@ -240,7 +242,6 @@ public class OrderActivity extends AppCompatActivity {
                     }.getType();
                     customers = gson.fromJson(responseData, customerListType);
                     customer = new HashMap<>();
-                    customer_address = new HashMap<>();
                     for (int i = 0; i < customers.size(); i++) {
                         customer.put(customers.get(i).getTelCode(), customers.get(i).getId());
 //                        customer_address.put(customers.get(i).getName(), customers.get(i).getAddress());
@@ -271,14 +272,16 @@ public class OrderActivity extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("111111111按钮被点");
+                progressBar.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(weightEditText.getText().toString())) {
                     Toast.makeText(OrderActivity.this, "重量不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(feeEditText.getText().toString())) {
-                    Toast.makeText(OrderActivity.this, "费用不能为空", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(feeEditText.getText().toString())) {
+//                    Toast.makeText(OrderActivity.this, "费用不能为空", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if (senderTextViewProfile.getText() == null || senderAddressTextView.getText() == null) {
                     Toast.makeText(OrderActivity.this, "寄件人地址为空,请设置寄件地址", Toast.LENGTH_SHORT).show();
                     return;
@@ -288,20 +291,31 @@ public class OrderActivity extends AppCompatActivity {
                     return;
                 }
                 System.out.println("通过校验");
-                Express express = new Express();
                 Float weight = Float.parseFloat(weightEditText.getText().toString());
-                Float fee = Float.parseFloat(feeEditText.getText().toString());
+//                Float fee = Float.parseFloat(feeEditText.getText().toString());
+                Float fee = null;
                 Integer type_id = type.get((String) typeSpinner.getSelectedItem());
-                Integer sender_id = customer.get((String) senderTel);
+                Integer sender_id = customer.get(senderTel);
                 String senderAddress = senderAddressTextView.getText().toString();
-                Integer receiver_id = customer.get((String) receiverTel);
+                Integer receiver_id = customer.get(receiverTel);
                 String receiverAddress = receiverAddressTextView.getText().toString();
+                if (senderRegionCode.charAt(0) == receiverRegionCode.charAt(0)) {
+                    if (weight <= 1.0) {
+                        fee = (float) 13.0;
+                    } else fee = (float) (13.0 + (weight - 1.0) * 2.0);
+                } else {
+                    if (weight <= 1.0) {
+                        fee = (float) 18.0;
+                    } else fee = (float) (18.0 + (weight - 1.0) * 5.0);
+                }
 
 
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 System.out.println(timestamp);
-                String createTime = timestamp.toString().substring(0, 19);
+                createTime = timestamp.toString().substring(0, 19);
 
+
+                express = new Express();
                 express.setWeight(weight);
                 express.setFee(fee);
                 express.setType(type_id);
@@ -317,43 +331,13 @@ public class OrderActivity extends AppCompatActivity {
                 express.setStatus(0);
                 express.setSenderName(senderName);
                 express.setReceiverName(receiverName);
-                express.setStatus(0);
+
+
                 System.out.println("express为:" + express);
-
-                OkHttpClient client1 = new OkHttpClient();
-                Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-                String json = gson.toJson(express);
-                RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json);
-                Request request1 = new Request.Builder().url(baseUrl + "Domain/Express/saveExpress").post(requestBody).build();
-                client1.newCall(request1).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        Log.e("HTTP Response", "Unexpected code ");
-                    }
-
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                        if (response.isSuccessful()) {
-                            String jsonResponse = response.body().string();
-                            Gson gson = new Gson();
-                            Express express = gson.fromJson(jsonResponse, Express.class);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    idEditText.setText(express.getId());
-                                    generateBarcode(express.getId());
-                                    createTimeEditText.setText(createTime);
-                                    Toast.makeText(OrderActivity.this, "下单成功", Toast.LENGTH_SHORT).show();
-//                                    Intent intent = new Intent(OrderActivity.this, MainActivity.class);
-//                                    startActivity(intent);
-//                                    finish();
-                                }
-                            });
-                        }
-                    }
-                });
+                performGetExpressInBackground();
             }
         });
+
         // 添加返回按钮点击事件
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,6 +345,7 @@ public class OrderActivity extends AppCompatActivity {
                 finish(); // 关闭当前活动
             }
         });
+
 //        addressesBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -371,6 +356,73 @@ public class OrderActivity extends AppCompatActivity {
     }
 
 
+    private void performGetExpressInBackground() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int progress = 0; progress < 100; progress += 20) {
+                        Thread.sleep(500);
+                        updateProgressBar(progress);
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateUI();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void updateProgressBar(int progress) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setProgress(progress);
+            }
+        });
+    }
+
+    private void updateUI() {
+        OkHttpClient client1 = new OkHttpClient();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        String json = gson.toJson(express);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json);
+        Request request1 = new Request.Builder().url(baseUrl + "Domain/Express/saveExpress").post(requestBody).build();
+        client1.newCall(request1).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e("HTTP Response", "Unexpected code ");
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String jsonResponse = response.body().string();
+                    Gson gson = new Gson();
+                    Express express = gson.fromJson(jsonResponse, Express.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            idEditText.setText(express.getId());
+                            generateBarcode(express.getId());
+                            createTimeEditText.setText(createTime);
+                            feeEditText.setText(express.getFee().toString());
+                            Toast.makeText(OrderActivity.this, "下单成功", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+            }
+
+        });
+        progressBar.setVisibility(View.GONE);
+    }
+
     private void selectSenderAndReceiverAndRefresh() {
 
         sender.setOnClickListener(new View.OnClickListener() {
@@ -379,7 +431,7 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(OrderActivity.this, AddressActivity.class);
                 intent.putExtra("mode", 1);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_SECOND_ACTIVITY);
             }
         });
         receiver.setOnClickListener(new View.OnClickListener() {
@@ -387,17 +439,17 @@ public class OrderActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(OrderActivity.this, AddressActivity.class);
                 intent.putExtra("mode", 2);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_SECOND_ACTIVITY);
             }
         });
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=getIntent();
-                finish();
-                startActivity(intent);
-            }
-        });
+//            refreshButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent intent = getIntent();
+//                    finish();
+//                    startActivity(intent);
+//                }
+//            });
     }
 
 
@@ -492,6 +544,27 @@ public class OrderActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("1111111111");
+        if (data.getStringExtra("mode").equals("1")) {
+            senderName = data.getStringExtra("senderName");
+            senderTel = data.getStringExtra("senderTel");
+            senderAddress = data.getStringExtra("senderAddress");
+            senderRegionCode = data.getStringExtra("senderRegionCode");
+            senderTextViewProfile.setText(senderName + " " + senderTel);
+        }
+        if (data.getStringExtra("mode").equals("2")) {
+            receiverName = data.getStringExtra("receiverName");
+            receiverTel = data.getStringExtra("receiverTel");
+            receiverAddress = data.getStringExtra("receiverAddress");
+            receiverRegionCode = data.getStringExtra("receiverRegionCode");
+            receiverTextViewProfile.setText(receiverName + " " + receiverTel);
+        }
     }
 
 }
