@@ -28,6 +28,12 @@ public class Transhistory implements Serializable {
         this.lon = lon;
     }
 
+    public Transhistory(String eid, Double lat, Double lon) {
+        this.eid = eid;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     public Integer getId() {
         return id;
     }

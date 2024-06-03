@@ -52,6 +52,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView titleTextView;
     private ImageView detailImageView;
     private ImageView locationImageView;
+    private ImageView current_mapImageView;
     private int mode;
     private String ExpressId = "";
     private Context context = DetailActivity.this;
@@ -72,6 +73,7 @@ public class DetailActivity extends AppCompatActivity {
         titleTextView = findViewById(R.id.webview_title);
         detailImageView = findViewById(R.id.main_detail);
         locationImageView = findViewById(R.id.main_location);
+        current_mapImageView = findViewById(R.id.main_map);
 
         TextView tv0 = findViewById(R.id.textViewExpressId);
         TextView tv1 = findViewById(R.id.textViewRecipient);
@@ -266,6 +268,15 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra("mode", mode);
                 startActivity(intent);
 
+            }
+        });
+        current_mapImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailActivity.this, CurrentMapActivity.class);
+                intent.putExtra("expressId", ExpressId);
+                intent.putExtra("mode", mode);
+                startActivity(intent);
             }
         });
     }

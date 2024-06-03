@@ -49,18 +49,26 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true">
             <ImageView
-                android:id="@+id/main_location"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_toRightOf="@+id/main_detail"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/ic_location"/>
-            <ImageView
                 android:id="@+id/main_detail"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/detail"/>
+            <ImageView
+                android:id="@+id/main_location"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toRightOf="@+id/main_detail"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_location"/>
+            <ImageView
+                android:id="@+id/main_map"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_toRightOf="@+id/main_location"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_region"/>
+
         </RelativeLayout>
     </RelativeLayout>
     <TextView
